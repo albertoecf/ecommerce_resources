@@ -1,0 +1,5 @@
+1. activate virtual/conda env
+2. Go to the desired directory
+3. run: django-admin startproject project_name
+4. cd into project folder
+5. run : python manage.py runserver
