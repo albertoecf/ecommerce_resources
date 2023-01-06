@@ -12,3 +12,7 @@ Model View Template pattern
 
 Working with apps :
 8. python manage.py startapp app_name
+9. settings.py add the app in INSTALLED_APPS
+10. include new app url in project urls.py
+11. connect new app url with its views.py file
+12. Create a template to render app reponses
