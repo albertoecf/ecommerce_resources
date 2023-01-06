@@ -13,18 +13,25 @@
       <thead>
         <tr>
           <th scope="col">Id</th>
+          <th scope="col">Picture</th>
           <th scope="col">User</th>
           <th scope="col">Industry</th>
           <th scope="col">Country</th>
         </tr>
       </thead>
       <tbody>
+        {% for user in users_all %}
         <tr>
-          <th scope="row">1</th>
-          <td>Mary</td>
-          <td>Health</td>
-          <td>UK</td>
+          <td>{{ user.user_id }}</td>
+          <td>
+            <img src="{{ user.photo.url }}"
+            width="40" height="40" style="border-radius:50px;" alt="{{ user.name }}">
+          </td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.industry }}</td>
+          <td>{{ user.country }}</td>
         </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>

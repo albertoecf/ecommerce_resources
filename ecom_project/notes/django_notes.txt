@@ -33,4 +33,6 @@ Admin panel :
 17. python manage.py createsuperuser
 18. Go to "http://127.0.0.1:8000/admin"
 19. Register apps you'd like to manage from you app / admin
-2
+
+Connect app with db:
+20. our_app views.py clas.object.all()
