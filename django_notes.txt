@@ -3,3 +3,5 @@
 3. run: django-admin startproject project_name
 4. cd into project folder
 5. run : python manage.py runserver
+6. Connect urls to views
+7. Templates : Create a folder template 
