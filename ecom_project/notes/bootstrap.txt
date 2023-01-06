@@ -1,3 +1,11 @@
 1. https://getbootstrap.com/docs/5.2/getting-started/introduction/
 2. get bootstrap : https://www.bootstrapcdn.com/
-3. 
+3. Download content and insert into project -> statics -> css
+4. add STATIC_ROOT in settings.py
+4.1 add STATICFILES_DIRS (in this case we use [os.path.join(Path(__file__).resolve().parent,'static'),]) to match our directory configuration : ecom_project/ecom_project/static. Base directory is ().parent.parent that would send to ecom_project/static which is not the case. And that's why we can not use BASE_DIR= os.path.join(BASE_DIR,'static')
+
+Basically the STATIC_ROOT is the location on the server where the files that are consumed on demand by the django project are stored, such as images, css files, javascript, etc.
+
+The idea Static_URL or dirs is to create an internal structure inside the STATIC_ROOT to organize directories folders where the static files (images, js, css, etc) will be located.
+
+In other words the STATIC_URL or dirs are just references to the location of the static files inside the ROOT.
