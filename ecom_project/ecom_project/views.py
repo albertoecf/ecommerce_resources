@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 def home_view(request):
-    return HttpResponse("<h2> Welcome to Ceibo Workbench </h2>")
+    return render(request, "home_template.html")
