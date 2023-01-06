@@ -10,6 +10,9 @@ Model View Template pattern
 6. Connect urls to views
 7. Templates : Create a folder template
 
+Static files :
+python manage.py collectstatic
+
 Working with apps :
 8. python manage.py startapp app_name
 9. settings.py add the app in INSTALLED_APPS
@@ -20,3 +23,14 @@ Working with apps :
 Link project template to app named path
 13. In new app urls file create a variable app_name = 'app_users'
 14. In project template 'app_users:user_list'
+
+Models -> Interact with Databases to interact with dynamic data
+(Within the app you want to use to manage this type of object)
+15. models.py : We should create a class which attributes will be stored as columns in our databases
+16. Excecute migrations : python manage.py makemigrations
+
+Admin panel :
+17. python manage.py createsuperuser
+18. Go to "http://127.0.0.1:8000/admin"
+19. Register apps you'd like to manage from you app / admin
+2
