@@ -1,0 +1,22 @@
+Django setup  (after env configuration):
+1. activate virtual/conda env
+2. Go to the desired directory
+3. run: django-admin startproject project_name
+4. cd into project folder
+5. run : python manage.py runserver
+
+Model View Template pattern
+
+6. Connect urls to views
+7. Templates : Create a folder template
+
+Working with apps :
+8. python manage.py startapp app_name
+9. settings.py add the app in INSTALLED_APPS
+10. include new app url in project urls.py
+11. connect new app url with its views.py file
+12. Create a template to render app reponses
+
+Link project template to app named path
+13. In new app urls file create a variable app_name = 'app_users'
+14. In project template 'app_users:user_list'
