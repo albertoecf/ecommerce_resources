@@ -1,10 +1,32 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Users List</title>
-  </head>
-  <body>
-      <h1>Users List</h1>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>Users List</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h2 class="text-center mt-5">Users List</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">User</th>
+          <th scope="col">Industry</th>
+          <th scope="col">Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mary</td>
+          <td>Health</td>
+          <td>UK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
 </html>
