@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app_users.apps.AppUsersConfig',
     'app_category.apps.AppCategoryConfig',
+    'app_accounts.apps.AppAccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecom_project.wsgi.application'
 
+AUTH_USER_MODEL = 'app_accounts.AccountClass'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

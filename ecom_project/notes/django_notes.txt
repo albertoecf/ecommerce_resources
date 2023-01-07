@@ -49,3 +49,20 @@ The verbose_name_plural attribute is similar, but specifies the name to use for 
 These attributes are important because they allow you to specify more descriptive and user-friendly names for your models and fields
 (That's why in our apps where we use "Class" to refer to the model, we need to set this properties in readable value)
 Migrate and make migrations after that
+
+Users and Logins:
+built-in authentication and authorization system
+Django's user management features allow you to easily create user accounts, handle password resets, and track user activity
+(But its requieres user name, we want email.. lets change it)
+23: Create a new_app (app_accounts)
+23.1 : settings.py add app
+
+The date_joined field in Django's AbstractBaseUser model is used to store the date and time that the user account was created. This can be useful for tracking user activity and analyzing user behavior.
+The last_login field is used to store the date and time of the user's most recent login. This can be useful for tracking user activity and identifying inactive users.
+The is_admin, is_staff, and is_superuser fields are used to indicate the user's level of access and permissions.
+The is_admin field is typically used to designate users who have administrative access to the site
+The is_staff field is used to designate users who have access to the site's backend but not necessarily full administrative access.
+The is_superuser field is used to designate users who have full administrative access to the site.
+The is_active field is used to indicate whether the user account is active or inactive.
+
+23.2 After creating this app we need to define AUTH_USER_MODEL in settings.py
