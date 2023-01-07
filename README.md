@@ -10,7 +10,7 @@ Requirements
   Django 3.0 or higher
 
 Getting started
-  Clone the repository: git clone https://github.com/your-username/ecommerce-django.git
+  Clone the repository: git clone https://github.com/albertoecf/ecommerce_resources.git
   Change into the project directory: cd ecommerce-django
   Install the requirements: pip install -r requirements.txt (WIP)
   Set up the database: python manage.py migrate
