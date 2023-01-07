@@ -75,3 +75,6 @@ Auto generate slug for category :
 
 How to manage many products?
 26. we will create a new app to do this -> app_product
+
+Dynamic products in page :
+27. 

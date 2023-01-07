@@ -4,102 +4,42 @@
 {% block content %}
 <!-- ========================= SECTION MAIN ========================= -->
 <section class="section-intro padding-y-sm">
-<div class="container">
+	<div class="container">
 
-<div class="intro-banner-wrap">
-	<img src="{% static 'images/banners/ceibo_banner.png' %}" class="img-fluid rounded">
-</div>
+		<div class="intro-banner-wrap">
+			<img src="{% static 'images/banners/ceibo_banner.png' %}" class="img-fluid rounded">
+		</div>
 
-</div> <!-- container //  -->
+	</div> <!-- container //  -->
 </section>
 <!-- ========================= SECTION MAIN END// ========================= -->
 
 <!-- ========================= SECTION  ========================= -->
 <section class="section-name padding-y-sm">
-<div class="container">
+	<div class="container">
 
-<header class="section-heading">
-	<a href="./store.html" class="btn btn-outline-primary float-right">Ver Todo</a>
-	<h3 class="section-title">Our Services</h3>
-</header><!-- sect-heading -->
+		<header class="section-heading">
+			<a href="./store.html" class="btn btn-outline-primary float-right">Ver Todo</a>
+			<h3 class="section-title">Our Services</h3>
+		</header><!-- sect-heading -->
 
 
-<div class="row">
-	<div class="col-md-3">
-		<div class="card card-product-grid">
-			<a href="./product-detail.html" class="img-wrap"> <img src="{% static 'images/items/data_science.jpeg' %}"> </a>
-			<figcaption class="info-wrap">
-				<a href="./product-detail.html" class="title">Data Science</a>
-				<div class="price mt-1">€249.99/month</div> <!-- price-wrap.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div class="card card-product-grid">
-			<a href="./product-detail.html" class="img-wrap"> <img src="{% static 'images/items/growth.jpeg' %}"> </a>
-			<figcaption class="info-wrap">
-				<a href="./product-detail.html" class="title">Product Growth</a>
-				<div class="price mt-1">€69.99/month</div> <!-- price-wrap.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div class="card card-product-grid">
-			<a href="./product-detail.html" class="img-wrap"> <img src="{% static 'images/items/product_launch.jpeg' %}"> </a>
-			<figcaption class="info-wrap">
-				<a href="./product-detail.html" class="title">Product Launch</a>
-				<div class="price mt-1">€349.99/month</div> <!-- price-wrap.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div class="card card-product-grid">
-			<a href="./product-detail.html" class="img-wrap"> <img src="{% static 'images/items/project_management.jpeg' %}"> </a>
-			<figcaption class="info-wrap">
-				<a href="./product-detail.html" class="title">Project Management</a>
-				<div class="price mt-1">€299.99/month</div> <!-- price-wrap.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div class="card card-product-grid">
-			<a href="./product-detail.html" class="img-wrap"> <img src="{% static 'images/items/software_development.jpeg' %}"> </a>
-			<figcaption class="info-wrap">
-				<a href="./product-detail.html" class="title">Software Development</a>
-				<div class="price mt-1">€349.99/month</div> <!-- price-wrap.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div class="card card-product-grid">
-			<a href="./product-detail.html" class="img-wrap"> <img src="{% static 'images/items/strategy.jpeg' %}"> </a>
-			<figcaption class="info-wrap">
-				<a href="./product-detail.html" class="title">Strategy Guidance</a>
-				<div class="price mt-1">€769.99/month</div> <!-- price-wrap.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div class="card card-product-grid">
-			<a href="./product-detail.html" class="img-wrap"> <img src="{% static 'images/items/feasibility.jpeg' %}"> </a>
-			<figcaption class="info-wrap">
-				<a href="./product-detail.html" class="title">Feasibility Study</a>
-				<div class="price mt-1">€839.99/month</div> <!-- price-wrap.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div class="card card-product-grid">
-			<a href="./product-detail.html" class="img-wrap"> <img src="{% static 'images/items/risk_management.jpeg' %}"> </a>
-			<figcaption class="info-wrap">
-				<a href="./product-detail.html" class="title">Risk Management</a>
-				<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-</div> <!-- row.// -->
+		<div class="row">
 
-</div><!-- container // -->
+			{% for product in products_all  %}
+			<div class="col-md-3">
+				<div class="card card-product-grid">
+					<a href="./product-detail.html" class="img-wrap"> <img src="{{product.images.url}}"> </a>
+					<figcaption class="info-wrap">
+						<a href="./product-detail.html" class="title">{{product.product_name}}</a>
+						<div class="price mt-1">€{{product.price}}/month</div> <!-- price-wrap.// -->
+					</figcaption>
+				</div>
+			</div> <!-- col.// -->
+			{% endfor %}
+
+		</div> <!-- row.// -->
+	</div> <!-- container.// -->
 </section>
 <!-- ========================= SECTION  END// ========================= -->
 
