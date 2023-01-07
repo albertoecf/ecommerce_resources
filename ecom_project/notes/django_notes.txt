@@ -66,3 +66,9 @@ The is_superuser field is used to designate users who have full administrative a
 The is_active field is used to indicate whether the user account is active or inactive.
 
 23.2 After creating this app we need to define AUTH_USER_MODEL in settings.py
+
+User admin panel:
+24. app_accounts admin.py show nicer format (horizontal and linked)
+
+Auto generate slug for category :
+25. app_category admin.py
