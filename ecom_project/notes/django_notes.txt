@@ -36,3 +36,9 @@ Admin panel :
 
 Connect app with db:
 20. our_app views.py clas.object.all()
+
+We will add functionalities by creating apps :
+21. python manage.py startapp app_category, app_users, app_products ..
+21.1 settings.py add app
+22. Within our new app , create a Model / register in new_app/admin.py
+22.1 python manage.py migrate , python manage.py makemigrations
