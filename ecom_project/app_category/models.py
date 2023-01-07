@@ -7,5 +7,11 @@ class CategoryClass(models.Model):
     slug = models.CharField(max_length=100, unique=True)
     category_image = models.ImageField(upload_to ='photos/categories',blank=True)
 
+
+    class Meta:
+        verbose_name = "Category Class"
+        verbose_name_plural = "Category Class"
+
+
     def __str__(self):
         return self.category_name

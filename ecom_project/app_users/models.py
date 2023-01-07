@@ -9,5 +9,9 @@ class UserClass(models.Model):
     industry = models.CharField(max_length =100)
     country = models.CharField(max_length=100)
 
+    class Meta:
+        verbose_name = 'User Class'
+        verbose_name_plural = 'User Class'
+
     def __str__(self):
         return self.name

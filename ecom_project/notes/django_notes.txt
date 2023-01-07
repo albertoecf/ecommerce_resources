@@ -42,3 +42,10 @@ We will add functionalities by creating apps :
 21.1 settings.py add app
 22. Within our new app , create a Model / register in new_app/admin.py
 22.1 python manage.py migrate , python manage.py makemigrations
+
+-- fix --
+In Django, the verbose_name attribute is used to specify the human-readable name for a model field or model itself.
+The verbose_name_plural attribute is similar, but specifies the name to use for the model in the plural form.
+These attributes are important because they allow you to specify more descriptive and user-friendly names for your models and fields
+(That's why in our apps where we use "Class" to refer to the model, we need to set this properties in readable value)
+Migrate and make migrations after that
