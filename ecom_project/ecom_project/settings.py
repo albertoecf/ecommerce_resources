@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'app_users.apps.AppUsersConfig',
     'app_category.apps.AppCategoryConfig',
     'app_accounts.apps.AppAccountsConfig',
+    'app_store.apps.AppStoreConfig',
 ]
 
 MIDDLEWARE = [
