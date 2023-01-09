@@ -77,4 +77,7 @@ How to manage many products?
 26. we will create a new app to do this -> app_product
 
 Dynamic products in page :
-27. 
+27. home_view in project views will send a "context" dictionary which will be displayed in home.html with {% for product in products_all  %}
+
+Creating Store section :
+28. projects urls.py path('store/', include('app_store.urls')) and we create urls.py file in app_store
