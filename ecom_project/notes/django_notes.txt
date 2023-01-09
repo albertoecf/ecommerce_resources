@@ -86,3 +86,11 @@ Filtering results
 29. We want to show products from specific class: /store/data-science.
   In app_store.urls we create a path(<slug:category_slug>, views.store_view)
   In app_store.views we import CategoryClass from app_category and filter using :products_available = ProductClass.objects.filter(category=categories, is_available=True)
+
+Categories Menu: Database query to list dynamic results
+  Django function : context_processors.py
+30. Create a file app_category/context_processors.py
+    Register it in settings.py TEMPLATES-OPTIONS-context_processors : app_category.context_processors.menu_links
+    This will allow any template in the project to access the info within menu_links function in context_processors
+    We want to link each category with its url: we create a get_url function within CategoryClass model in app_category.models.
+    This function will reverse our products_by_category_path in app_store.urls and add self.slug -> return sth like  : oursite.com/store/product-launch
