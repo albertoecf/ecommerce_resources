@@ -21,3 +21,15 @@ def store_view(request, category_slug=None):
         'product_count' : product_count
     }
     return render(request,'store/store_file.html', info_to_render)
+
+def product_detail_view(request, category_slug, product_slug):
+    try:
+        single_product = ProductClass.objects.get(category__slug=category_slug, slug=product_slug)
+    except Exception as e :
+        raise e
+
+    product_info_to_render = {
+        'single_product':single_product,
+    }
+
+    return render(request, 'store/product_detail_file.html',product_info_to_render)

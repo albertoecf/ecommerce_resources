@@ -38,6 +38,7 @@
 				<i class="fa fa-bars"></i> Categorias
 			</button>
 			<div class="dropdown-menu">
+        <a class="dropdown-item" href="{% url 'app_store:store_view_path' %}">All</a>
         {% for category in links %}
         <a class="dropdown-item" href="{{ category.get_url }}">{{ category.category_name }}</a>
         {% endfor %}

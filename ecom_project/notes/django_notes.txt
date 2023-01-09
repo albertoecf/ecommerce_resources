@@ -94,3 +94,15 @@ Categories Menu: Database query to list dynamic results
     This will allow any template in the project to access the info within menu_links function in context_processors
     We want to link each category with its url: we create a get_url function within CategoryClass model in app_category.models.
     This function will reverse our products_by_category_path in app_store.urls and add self.slug -> return sth like  : oursite.com/store/product-launch
+    Replicate for store_file html
+
+Product Detail Page:
+31. We aim to have oursite.com/our_product
+    app_store path('<slug:category_slug>/<slug:product_slug>', views.product_detail_view, name = 'product_detail_path')
+    Within product detail page, we are going to query the database to display dynamic info about product.
+    We're going to do this from product_detail_view in app_store.views.
+    "category__slug" returns slug value from category table
+
+32. Link product detail from product card in home : Dynamic Link to our Django projects
+    In app_store.models.py we define get_url
+    In home.html we replace links
