@@ -94,3 +94,4 @@ Categories Menu: Database query to list dynamic results
     This will allow any template in the project to access the info within menu_links function in context_processors
     We want to link each category with its url: we create a get_url function within CategoryClass model in app_category.models.
     This function will reverse our products_by_category_path in app_store.urls and add self.slug -> return sth like  : oursite.com/store/product-launch
+    Replicate for store html
