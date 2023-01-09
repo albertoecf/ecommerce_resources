@@ -106,3 +106,6 @@ Product Detail Page:
 32. Link product detail from product card in home : Dynamic Link to our Django projects
     In app_store.models.py we define get_url
     In home.html we replace links
+
+We should block add to card button for products without stock
+33. In product detail file if stock < 0 then raise error
