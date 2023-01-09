@@ -21,3 +21,6 @@ def store_view(request, category_slug=None):
         'product_count' : product_count
     }
     return render(request,'store/store_file.html', info_to_render)
+
+def product_detail_view(request, category_slug, product_slug):
+    return render(request, 'store/product_detail_file.html')
