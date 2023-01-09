@@ -80,4 +80,9 @@ Dynamic products in page :
 27. home_view in project views will send a "context" dictionary which will be displayed in home.html with {% for product in products_all  %}
 
 Creating Store section :
-28. projects urls.py path('store/', include('app_store.urls')) and we create urls.py file in app_store
+28. projects urls.py path('store/', include('app_store.urls')) and we create urls.py file in app_store. Then we send a info_to_render dictionary from app_store views (connected by urls.py -> app_store/urls.py) and render it with {% for loop %} in store_file.html
+
+Filtering results
+29. We want to show products from specific class: /store/data-science.
+  In app_store.urls we create a path(<slug:category_slug>, views.store_view)
+  In app_store.views we import CategoryClass from app_category and filter using :products_available = ProductClass.objects.filter(category=categories, is_available=True)
