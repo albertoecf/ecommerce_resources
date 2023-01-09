@@ -1,5 +1,7 @@
 from django.db import models
+from django.urls import reverse
 from app_category.models import CategoryClass
+
 
 # Create your models here.
 class ProductClass(models.Model):
@@ -13,6 +15,9 @@ class ProductClass(models.Model):
     category = models.ForeignKey(CategoryClass, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add = True)
     modified_date = models.DateTimeField(auto_now = True)
+
+    def get_url(self):
+        return reverse('app_store:product_detail_path', args=[self.category.slug, self.slug] )
 
     def __str__(self):
         return self.product_name
