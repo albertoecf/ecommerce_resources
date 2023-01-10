@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from app_store.models import ProductClass
 from .models import CartClass, CartItemClass
 from django.core.exceptions import ObjectDoesNotExist
+
 
 #We need a local only function -> def _name_of_the_function
 def _cart_id(request):
@@ -51,6 +52,28 @@ def add_cart_view(request, product_id):
         cart_item.save()
     return redirect('cart_view_path')
 
+def remove_item_from_cart(request, product_id):
+    cart_request = CartClass.objects.get(cart_id = _cart_id(request))
+    product_request = get_object_or_404(ProductClass, id=product_id)
+    cart_item = CartItemClass.objects.get(product=product_request, cart=cart_request)
+
+    if cart_item.quantity > 1 :
+        cart_item.quantity -= 1
+        cart_item.save()
+    else :
+        cart_item.delete()
+
+    return redirect('cart_view_path')
+
+def remove_item_from_cart(request, product_id):
+    cart_request = CartClass.objects.get(cart_id = _cart_id(request))
+    product_request = get_object_or_404(ProductClass, id=product_id)
+    cart_item = CartItemClass.objects.get(product=product_request, cart=cart_request)
+
+    cart_item.delete()
+    
+    return redirect('cart_view_path')
+
 def cart_view(request, total=0, quantity=0, cart_items=None):
     try:
         # We check if we have some current/existing cart in our database
@@ -60,6 +83,10 @@ def cart_view(request, total=0, quantity=0, cart_items=None):
         for cart_item in cart_items:
             total += (cart_item.product.price * cart_item.quantity)
             quantity += cart_item.quantity
+
+        tax = (2*total)/100
+        grand_total = total + tax
+
     except ObjectDoesNotExist:
         #this will be only excecuted whrn object does not exist
         pass
@@ -67,7 +94,9 @@ def cart_view(request, total=0, quantity=0, cart_items=None):
     context_to_send = {
                 'total':total,
                 'quantity':quantity,
-                'cart_items':cart_items
+                'cart_items':cart_items,
+                'tax':tax,
+                'grand_total':grand_total
     }
 
     return render(request, 'store/cart.html', context_to_send)
