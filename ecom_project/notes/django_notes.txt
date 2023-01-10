@@ -131,3 +131,13 @@ Create shopping Cart and "add to cart" functionality
   The first try block handles the case where the cart does not exist, and the second
     try block handles the case where the cart item for the specified product does not exist
 36. We need to create the path in app_carts.urls.py
+
+Shopping Cart Dynamic Extract info from database and its items
+37. In app_carts.views.py we improve cart_view which will send information to store/cart.html
+    The file store/cart.html should receive the dictionary and display its items
+    We will do that with
+      {% for cart_item in cart_items  %}
+      which will fill
+      {{ cart_item.product.product_name }}
+We want to display sub total price in shopping cart, we add that logic as method in models.py
+  def subtotal() -> price * quantity

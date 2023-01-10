@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from app_store.models import ProductClass
 from .models import CartClass, CartItemClass
+from django.core.exceptions import ObjectDoesNotExist
 
 #We need a local only function -> def _name_of_the_function
 def _cart_id(request):
@@ -49,5 +50,24 @@ def add_cart_view(request, product_id):
         )
         cart_item.save()
     return redirect('cart_view_path')
-def cart_view(request):
-    return render(request, 'store/cart.html')
+
+def cart_view(request, total=0, quantity=0, cart_items=None):
+    try:
+        # We check if we have some current/existing cart in our database
+        existing_cart = CartClass.objects.get(cart_id = _cart_id(request))
+        # If we have that cart, we want its items
+        cart_items = CartItemClass.objects.filter(cart=existing_cart, is_active=True)
+        for cart_item in cart_items:
+            total += (cart_item.product.price * cart_item.quantity)
+            quantity += cart_item.quantity
+    except ObjectDoesNotExist:
+        #this will be only excecuted whrn object does not exist
+        pass
+
+    context_to_send = {
+                'total':total,
+                'quantity':quantity,
+                'cart_items':cart_items
+    }
+
+    return render(request, 'store/cart.html', context_to_send)
