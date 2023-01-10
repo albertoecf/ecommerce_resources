@@ -140,4 +140,27 @@ Shopping Cart Dynamic Extract info from database and its items
       which will fill
       {{ cart_item.product.product_name }}
 We want to display sub total price in shopping cart, we add that logic as method in models.py
-  def subtotal() -> price * quantity
+38.  def subtotal() -> price *
+
+Add total price and tax to shopping cart
+39.  app_carts views.py -> def cart_view()
+     We need to declare those new values in our dictionary -> context_to_send
+     And update our cart html file
+
+Within cart we have some buttons with functionalities: add products, reduce products..
+  We are going to add + - functionality
+40. Replace :
+  <button class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </button>
+  for :
+  <a href="{% url 'add_cart_view_path' cart_item.product.id  %}" class .... </a>
+
+  To reduce quantity, we need to define new function
+41. in app_cart -> Views.py
+    def remove_item_from_cart()
+    We need to create a path for this function -> app_cart.urls.py
+    path('remove_cart/<int:product_id>',views.remove_item_from_cart, name='remove_cart_view_path'),
+
+We Want to be able to delete one product from the cart. We've a button in our html, lets create the functionality
+42. In app_cart views.py -> def remove_item_from_cart
+    (same first lines as remove_item_from_cart)
+    add the path in urls file
