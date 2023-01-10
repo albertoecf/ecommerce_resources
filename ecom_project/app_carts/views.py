@@ -52,7 +52,7 @@ def add_cart_view(request, product_id):
         cart_item.save()
     return redirect('cart_view_path')
 
-def remove_item_from_cart(request, product_id):
+def remove_unit_item_from_cart(request, product_id):
     cart_request = CartClass.objects.get(cart_id = _cart_id(request))
     product_request = get_object_or_404(ProductClass, id=product_id)
     cart_item = CartItemClass.objects.get(product=product_request, cart=cart_request)
@@ -71,7 +71,7 @@ def remove_item_from_cart(request, product_id):
     cart_item = CartItemClass.objects.get(product=product_request, cart=cart_request)
 
     cart_item.delete()
-    
+
     return redirect('cart_view_path')
 
 def cart_view(request, total=0, quantity=0, cart_items=None):

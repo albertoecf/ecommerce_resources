@@ -164,3 +164,12 @@ We Want to be able to delete one product from the cart. We've a button in our ht
 42. In app_cart views.py -> def remove_item_from_cart
     (same first lines as remove_item_from_cart)
     add the path in urls file
+
+ShoppingCart : Empty cart
+43. In cart html : div class row only show if we have products
+    we use {% if we have products %}
+
+--- functionality fix --- -> include dynamic link in store html, navbar and home
+
+Product Contained in ShoppingCart
+44. In app_store views.py we look for cart id , if exist, we use it, if not, we create a new one
