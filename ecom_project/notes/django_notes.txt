@@ -170,3 +170,6 @@ ShoppingCart : Empty cart
     we use {% if we have products %}
 
 --- functionality fix --- -> include dynamic link in store html, navbar and home
+
+Product Contained in ShoppingCart
+44. In app_store views.py we look for cart id , if exist, we use it, if not, we create a new one
