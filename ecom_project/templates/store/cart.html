@@ -5,7 +5,17 @@
     <div class="container">
 
     <!-- ============================ COMPONENT 1 ================================= -->
+    {% if not cart_items %}
+        <div class="text-center">
+            <h2>No products added yet</h2>
+        </div>
 
+        <br>
+        <div class="text-center">
+          <a href="{% url 'app_store:store_view_path'%}" class="btn btn-primary">Keep buying</a>
+
+        </div>
+    {% else %}
     <div class="row">
         <aside class="col-lg-9">
     <div class="card">
@@ -91,6 +101,7 @@
     </div> <!-- row.// -->
     <!-- ============================ COMPONENT 1 END .// ================================= -->
 
+    {% endif %}
     </div> <!-- container .//  -->
     </section>
     <!-- ========================= SECTION CONTENT END// ========================= -->
