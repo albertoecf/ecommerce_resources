@@ -109,3 +109,25 @@ Product Detail Page:
 
 We should block add to card button for products without stock
 33. In product detail file if stock < 0 then raise error
+
+Create Shopping Cart : app_carts
+34: we are going to work with a new app to manage the shopping cart.
+    python manage.py startapp app_carts
+    settings.py -> INSTALLED_APPS
+    We implement a template for cart and insert it into cart.html
+    We've to create : structure, columns and tables to host our shopping cart
+    models.py -> CartClass and CartItemClass
+    app_carts.admin.py register models
+    Migrate! -> python manage.py migrate , makemigrations
+
+Create shopping Cart and "add to cart" functionality
+  We need to create records in database when user add products to shopping cart.
+  This means we'll need to create records for CartClass and CartItemClass
+35. In app_carts.views.py , we import app_store.models ProductClass and define add_cart_view
+  In the add_cart_view function, the try blocks are used to handle the case where
+    the cart or cart item for the current session does not exist in the database.
+  This is important because if these objects do not exist, calling the get method
+    on them will raise a DoesNotExist exception, which needs to be handled.
+  The first try block handles the case where the cart does not exist, and the second
+    try block handles the case where the cart item for the specified product does not exist
+36. We need to create the path in app_carts.urls.py
