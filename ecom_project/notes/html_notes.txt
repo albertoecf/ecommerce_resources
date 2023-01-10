@@ -1,0 +1,49 @@
+In Django templates, {% ... %} is used to indicate a block of template tags,
+  which are used to control the flow of the template rendering. Template tags can
+  be used to perform tasks such as iterating over a list of items, displaying a
+  value only if it meets certain criteria, or including a template fragment.
+
+On the other hand, {{ ... }} is used to output the value of a variable or expression to the template.
+Variables are used to output data from the context of the template, such as the
+  values of object fields or the results of processing by template filters.
+
+The use of {% ... %} and {{ ... }} allows the template rendering engine to
+  distinguish between tags and variables, and to properly process the template accordingly.
+
+For example, the following template code will output the value of the name variable:
+
+<p>Hello, {{ name }}!</p>
+
+On the other hand, the following template code will iterate over a list of items
+ and output the value of the item variable for each iteration:
+
+{% for item in item_list %}
+    <p>{{ item }}</p>
+{% endfor %}
+
+
+For example, the template rendering engine will replace {{single_product.images.url}}
+  with the URL of the images for the single_product object, and {{ single_product.product_name }}
+  with the product_name of the single_product object.
+Similarly, {{single_product.price}} and {{single_product.description}} will be
+  replaced with the price and description of the single_product object, respectively.
+
+By enclosing the variables in {{ }}, the template rendering engine knows to output
+  the value of the variable to the template. 
+This is in contrast to template tags and variables, which are enclosed in {% %} and
+  are used to control the flow of the template rendering or output expressions, respectively.
+
+
+
+In Django templates, {% ... %} is used to indicate a block of template tags or variables. The if tag in the example you provided is used to control the flow of the template rendering. It checks the value of single_product.stock and, if it is less than or equal to 0, renders the <h5>No Stock</h5> element. Otherwise, it renders the <a> element with the href attribute set to the result of the url tag.
+
+{{ ... }} is used to output the value of a variable or expression to the template. In the example you provided, the url tag is used to generate the URL for the add_cart_view_path view, with single_product.id passed as an argument.
+
+Here is a brief summary of some common template tags and variables in Django templates:
+
+{% if ... %}: used to control the flow of the template rendering based on a condition.
+{% for ... %}: used to iterate over a list of items.
+{% url ... %}: used to generate a URL for a named URL pattern.
+{% csrf_token %}: used to include a CSRF token in a form.
+{{ variable }}: used to output the value of a variable.
+{{ variable|filter }}: used to apply a filter to a variable. Filters can be used to modify the value of a variable or format it for display.
