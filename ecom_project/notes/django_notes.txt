@@ -173,3 +173,10 @@ ShoppingCart : Empty cart
 
 Product Contained in ShoppingCart
 44. In app_store views.py we look for cart id , if exist, we use it, if not, we create a new one
+
+We want to display the number of items in the shoppingCart (present in the navbar)
+45. In app_carts we create a new file : context_processors
+    In settings.py TEMPLATES we include 'app_carts.context_processors.counter'
+    In templates/includes/navbar we use {{ cart_items_count }}
+    {{ cart_items_count }} is a dictionary, globaly available thanks to context_processors
+    and registering it in TEMPLATES
