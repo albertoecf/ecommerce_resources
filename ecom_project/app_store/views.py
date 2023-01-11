@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import ProductClass
 from app_category.models import CategoryClass
 from app_carts.models import CartItemClass
@@ -13,13 +14,19 @@ def store_view(request, category_slug=None):
         # url path has category value, i.e : store/data-science
         categories = get_object_or_404(CategoryClass, slug=category_slug)
         products_available = ProductClass.objects.filter(category=categories, is_available=True)
+        paginator = Paginator(products_available, 6)
+        page_requested = request.GET.get('page')
+        paged_products = paginator.get_page(page_requested)
         product_count  = products_available.count()
     else:
         products_available = ProductClass.objects.all().filter(is_available=True)
+        paginator = Paginator(products_available, 6)
+        page_requested = request.GET.get('page')
+        paged_products = paginator.get_page(page_requested)
         product_count  = products_available.count()
 
     info_to_render = {
-        'products_available' : products_available,
+        'products_available' : paged_products,
         'product_count' : product_count
     }
     return render(request,'store/store_file.html', info_to_render)
