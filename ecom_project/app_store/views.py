@@ -49,9 +49,11 @@ def product_detail_view(request, category_slug, product_slug):
     return render(request, 'store/product_detail_file.html',product_info_to_render)
 
 def search_view(request):
+    products_searched = ProductClass.objects.order_by('-created_date')
+    product_count = products_searched.count()
     #are we receiving a keyword in the request?
     if 'keyword' in request.GET :
-        keyword = request.GET['keyword']
+        keyword = request.GET['keyword'].strip()
         if keyword:
             # we want to match product name and description
             products_searched = ProductClass.objects.order_by(
