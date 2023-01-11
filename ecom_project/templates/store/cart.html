@@ -35,7 +35,7 @@
                   <figure class="itemside align-items-center">
                       <div class="aside"><img src="{{ cart_item.product.images.url }}" class="img-sm"></div>
                       <figcaption class="info">
-                          <a href="#" class="title text-dark">{{ cart_item.product.product_name }}</a>
+                          <a href="{{ cart_item.product.get_url }}" class="title text-dark">{{ cart_item.product.product_name }}</a>
                           <p class="text-muted small"> Validated </p>
                       </figcaption>
                   </figure>
@@ -91,7 +91,7 @@
                       <img src="{% static './images/misc/payments.png' %}" height="26">
                   </p>
                   <a href="./place-order.html" class="btn btn-primary btn-block"> Pay </a>
-                  <a href="./store.html" class="btn btn-light btn-block"> Keep buying </a>
+                  <a href="{% url 'app_store:store_view_path' %}" class="btn btn-light btn-block"> Keep buying </a>
               </div> <!-- card-body.// -->
               </div> <!-- card.// -->
 

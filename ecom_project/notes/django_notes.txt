@@ -180,3 +180,29 @@ We want to display the number of items in the shoppingCart (present in the navba
     In templates/includes/navbar we use {{ cart_items_count }}
     {{ cart_items_count }} is a dictionary, globaly available thanks to context_processors
     and registering it in TEMPLATES
+
+Ecommerce pagination: Group results, and being able to get every group.
+  We want to edit those groups and how we show it. i.e : In /sore we show a list
+  of products with some condition -> show X products per "group". Each "group" is
+  contained in a "page" and we have a bar with 1,2,3,4..
+46. In app_store views: we import django.core.paginator
+    We implement Paginator(products_available, 5)
+How user can request differents "groups"/"pages"? In the path-url it'll be included
+the "page", and we get that page number from the request
+    page_requested = request.GET.get('page')
+    paged_products = paginator.get_page(page_requested)
+And finally, we need to send this products to the front end, we're using
+context dictionary to do this.
+    info_to_render = {
+        'products_available' : paged_products,
+        'product_count' : product_count}
+
+We want to manage pagination from the index box [1,2,3] And display it only if
+we've more than one page
+47. In templates/store/store file
+    We can access our dictionary from app_store.views.py -> products_available
+    And we check has_other_pages from Paginator
+    {% if products_available.has_other_pages %}
+How many pages are we displaying in index box ? Is harcoded, we'll implement
+a for loop to check how many index do we have
+48. In templates/store/store file -> {% for i in products_available.paginator.page_range %}
