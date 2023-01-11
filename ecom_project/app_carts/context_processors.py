@@ -10,7 +10,7 @@ def counter(request):
         # We want the sum of all items (item_id * quantity)
 
         for cart_item in cart_items:
-            cart_items_count  = cart_item.quantity
+            cart_items_count  += cart_item.quantity
 
     except CartClass.DoesNotExist:
             cart_items_count = 0
