@@ -206,3 +206,17 @@ we've more than one page
 How many pages are we displaying in index box ? Is harcoded, we'll implement
 a for loop to check how many index do we have
 48. In templates/store/store file -> {% for i in products_available.paginator.page_range %}
+
+Search for products!!  In the navbar we have a searchbox
+49. Register the path in app_store urls.py
+    path('search/', views.search_view, name='search_view_path')
+    Create the new view in app_store views.py named search_view
+    We need to import from django.db.models import Q as we want to match product name and description
+    filter(Q(description__icontains=keyword)|Q(product_name__icontains=keyword))
+    we send the results with info_to_render dictionary
+In the front end we need to access this functionality
+50. Within the navbar we have a form which action has to be execute search_view
+    User's input will be register with "name" within the input tag. That name (keyword)
+    will be used to filter our results in Q(... =keyword)
+Add logic when we have no products
+51. In store_file.html we implement a {% if we have products %}

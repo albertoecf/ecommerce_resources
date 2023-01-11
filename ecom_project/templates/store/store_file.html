@@ -126,27 +126,32 @@
         </header><!-- sect-heading -->
 
         <div class="row">
+          {% if products_available %}
+            {% for product in products_available %}
+            <div class="col-md-4">
+              <figure class="card card-product-grid">
+                <div class="img-wrap">
+                  <a href="{{ product.get_url }}" class="img-wrap"> <img src="{{product.images.url}}"> </a>
 
-          {% for product in products_available %}
-          <div class="col-md-4">
-            <figure class="card card-product-grid">
-              <div class="img-wrap">
-                <a href="{{ product.get_url }}" class="img-wrap"> <img src="{{product.images.url}}"> </a>
-
-              </div> <!-- img-wrap.// -->
-              <figcaption class="info-wrap">
-                <div class="fix-height">
-                  <a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>
-                  <div class="price-wrap mt-2">
-                    <span class="price">€{{ product.price }}/month</span>
-                  </div> <!-- price-wrap.// -->
-                </div>
-                <a href="{% url 'add_cart_view_path' product.id %}"  class="btn btn-block btn-success">Add to cart </a>
-              </figcaption>
-            </figure>
-          </div> <!-- col.// -->
-          {% endfor %}
-
+                </div> <!-- img-wrap.// -->
+                <figcaption class="info-wrap">
+                  <div class="fix-height">
+                    <a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>
+                    <div class="price-wrap mt-2">
+                      <span class="price">€{{ product.price }}/month</span>
+                    </div> <!-- price-wrap.// -->
+                  </div>
+                  <a href="{% url 'add_cart_view_path' product.id %}"  class="btn btn-block btn-success">Add to cart </a>
+                </figcaption>
+              </figure>
+            </div> <!-- col.// -->
+            {% endfor %}
+          {% else %}
+            <div class="text-center">
+                <h2>We haven't found what your are looking for</h2>
+              <a href="{% url 'app_store:store_view_path' %}" class="btn btn-primary">Go back</a>
+            </div>
+          {% endif %}
         </div> <!-- row end.// -->
 
 
