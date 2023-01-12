@@ -275,3 +275,16 @@ We can also use these methods in our views and templates to easily filter the re
 Finally we need to add objects  = VariationManagerClass() in our VariationClass
 
 --- END COMMENT ---
+
+We've added variations to our product detail, now, we want to send that information
+to our shopping cart
+
+56. We'll add a column to CartItemClass in app_carts.models.py
+    (CartItemClass represents one line in the Cart)
+    in app_carts CartItemClass we add
+    variations = models.ManytoManyField(VariationClass, blank=True)
+
+How to capture the selection on the product detail page?
+Currently we are sending them with GET method within the URL.
+We'll use POST method
+57. in app_carts views.py add_cart_view()
