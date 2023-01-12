@@ -226,6 +226,18 @@ size, color, and so on...
 Working with Variants in ecommerce:
 52. Prepare the front end to interact with different variants.
     In product_detail_file.html we replace simple button for a form. This will allow
-    us to send more information in the request
+    us to send more information in the request (our extra information : size, stage, color, etc..
+    will be sent within url parameters to render view function)
 
-53. In ... /models.py we create the VariantClass
+So far we have hardcoded variants options, now we will make dynamic Variants
+by connecting our database
+53. In app_store/models.py we create the VariationClass which has to be connected with
+    ProductClass
+    class VariationClass(models.Model):
+        product = models.ForeignKey(ProductClass, on_delete=CASCADE)
+        variation_category -> will have pre define choices "variation_category_choice"
+    Then we register our new class in app_store/admin.py
+    python manage.py migrate , makemigrations
+
+In the admin panel we'd like to have a better detail of the variations
+54. In app_store/admin.py we create VariationAdminClass 
