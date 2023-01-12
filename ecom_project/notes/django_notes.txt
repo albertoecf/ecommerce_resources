@@ -240,4 +240,20 @@ by connecting our database
     python manage.py migrate , makemigrations
 
 In the admin panel we'd like to have a better detail of the variations
-54. In app_store/admin.py we create VariationAdminClass 
+54. In app_store/admin.py we create VariationAdminClass
+
+How to display dynamic variants?
+55. templates/store/product_detail_file.html  in the select options
+
+NOTE:
+In Django, when you define a ForeignKey or a OneToOneField in your models, it automatically creates a reverse relation.
+In your case, the model "ProductClass" has a ForeignKey to the model "VariationClass", so Django creates a reverse relation
+for the model "VariationClass" called "variationclass_set", it gives you a manager to filter "VariationClass" by the related
+ "ProductClass" model.
+
+The manager is a query set that allows you to retrieve related items from the "VariationClass"
+model. So, you can use the manager to retrieve all the related "VariationClass"
+items for a given "ProductClass" instance using the "variationclass_set" attribute.
+
+Therefore, {% for i in single_product.variationclass.all %} should be changed to
+ {% for i in single_product.variationclass_set.all %}

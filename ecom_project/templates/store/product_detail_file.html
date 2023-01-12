@@ -34,10 +34,9 @@
                 <div class="item-option-select">
                   <h6>Stages of Business </h6>
                   <select class="form-control" name="choose_business_stage">
-                    <option value="Ideation">Ideation</option>
-                    <option value="Startup">Startup</option>
-                    <option value="Growth">Growth</option>
-                    <option value="Maturity">Maturity</option>
+                      {% for i in single_product.variationclass_set.all %}
+                      <option value="{{ i.variation_value }}">{{ i.variation_value }}</option>
+                      {% endfor %}
                   </select>
                 </div>
               </div> <!-- row.// -->
