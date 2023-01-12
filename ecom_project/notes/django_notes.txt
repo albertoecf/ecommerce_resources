@@ -220,3 +220,12 @@ In the front end we need to access this functionality
     will be used to filter our results in Q(... =keyword)
 Add logic when we have no products
 51. In store_file.html we implement a {% if we have products %}
+
+Our Services/Product can have different variants : Company size, Language,
+size, color, and so on...
+Working with Variants in ecommerce:
+52. Prepare the front end to interact with different variants.
+    In product_detail_file.html we replace simple button for a form. This will allow
+    us to send more information in the request
+
+53. In ... /models.py we create the VariantClass
