@@ -220,3 +220,71 @@ In the front end we need to access this functionality
     will be used to filter our results in Q(... =keyword)
 Add logic when we have no products
 51. In store_file.html we implement a {% if we have products %}
+
+Our Services/Product can have different variants : Company size, Language,
+size, color, and so on...
+Working with Variants in ecommerce:
+52. Prepare the front end to interact with different variants.
+    In product_detail_file.html we replace simple button for a form. This will allow
+    us to send more information in the request (our extra information : size, stage, color, etc..
+    will be sent within url parameters to render view function)
+
+So far we have hardcoded variants options, now we will make dynamic Variants
+by connecting our database
+53. In app_store/models.py we create the VariationClass which has to be connected with
+    ProductClass
+    class VariationClass(models.Model):
+        product = models.ForeignKey(ProductClass, on_delete=CASCADE)
+        variation_category -> will have pre define choices "variation_category_choice"
+    Then we register our new class in app_store/admin.py
+    python manage.py migrate , makemigrations
+
+In the admin panel we'd like to have a better detail of the variations
+54. In app_store/admin.py we create VariationAdminClass
+
+How to display dynamic variants?
+55. templates/store/product_detail_file.html  in the select options
+
+--- COMMENT ---
+In Django, when you define a ForeignKey or a OneToOneField in your models, it automatically creates a reverse relation.
+In your case, the model "ProductClass" has a ForeignKey to the model "VariationClass", so Django creates a reverse relation
+for the model "VariationClass" called "variationclass_set", it gives you a manager to filter "VariationClass" by the related
+ "ProductClass" model.
+
+The manager is a query set that allows us to retrieve related items from the "VariationClass"
+model. So, we can use the manager to retrieve all the related "VariationClass"
+items for a given "ProductClass" instance using the "variationclass_set" attribute.
+
+Therefore, {% for i in single_product.variationclass.all %} should be changed to
+ {% for i in single_product.variationclass_set.all %}
+
+The VariationManagerClass is a custom manager class that allows us to define custom methods
+for querying the VariationClass model. By defining custom methods on the manager,
+ we can create more expressive and readable code when working with the related data in our views and templates.
+
+Here, the custom methods company_stage and company_size are defined, which allow us to
+filter the VariationClass objects by the variation_category field and is_active field.
+
+We can use these methods by calling them on the objects manager of the VariationClass model.
+    VariationClass.objects.company_stage()
+    VariationClass.objects.company_size()
+We can also use these methods in our views and templates to easily filter the related VariationClass instances.
+    single_product.variationclass_set.company_stage()
+    single_product.variationclass_set.company_size()
+
+Finally we need to add objects  = VariationManagerClass() in our VariationClass
+
+--- END COMMENT ---
+
+We've added variations to our product detail, now, we want to send that information
+to our shopping cart
+
+56. We'll add a column to CartItemClass in app_carts.models.py
+    (CartItemClass represents one line in the Cart)
+    in app_carts CartItemClass we add
+    variations = models.ManytoManyField(VariationClass, blank=True)
+
+How to capture the selection on the product detail page?
+Currently we are sending them with GET method within the URL.
+We'll use POST method
+57. in app_carts views.py add_cart_view()
