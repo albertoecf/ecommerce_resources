@@ -44,7 +44,9 @@ def add_cart_view(request, product_id):
 
             try:
                 variation = VariationClass.objects.get(
-                    product=product, variationclasss_category__iexact=key, variationclass_value__iexact=value)
+                    product=product,
+                    variationclasss_category__iexact=key,
+                    variationclass_value__iexact=value)
                 product_variation.append(variation)
             except:
                 pass
@@ -57,8 +59,8 @@ def add_cart_view(request, product_id):
         cart.save()
     try:
         cart_item = CartItemClass.objects.get(product=product, cart=cart)
-        if len(product_variation) > 0 :
-            cart_item.variations.clear() #clean before
+        if len(product_variation) > 0:
+            cart_item.variations.clear()  # clean before
             for item in product_variation:
                 cart_item.variations.add(item)
         cart_item.quantity += 1
@@ -101,13 +103,13 @@ def remove_item_from_cart(request, product_id):
 
 def cart_view(request, total=0, quantity=0, cart_items=None):
     tax = 0
-    grand_total=0
+    grand_total = 0
     try:
         # We check if we have some current/existing cart in our database
-        existing_cart = CartClass.objects.get(cart_id=_cart_id(request))
+        cart = CartClass.objects.get(cart_id=_cart_id(request))
         # If we have that cart, we want its items
         cart_items = CartItemClass.objects.filter(
-            cart=existing_cart, is_active=True)
+            cart=cart, is_active=True)
         for cart_item in cart_items:
             total += (cart_item.product.price * cart_item.quantity)
             quantity += cart_item.quantity
@@ -122,6 +124,7 @@ def cart_view(request, total=0, quantity=0, cart_items=None):
     context_to_send = {
         'total': total,
         'quantity': quantity,
+        'cart': cart,
         'cart_items': cart_items,
         'tax': tax,
         'grand_total': grand_total
