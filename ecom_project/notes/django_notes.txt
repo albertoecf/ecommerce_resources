@@ -288,3 +288,49 @@ How to capture the selection on the product detail page?
 Currently we are sending them with GET method within the URL.
 We'll use POST method
 57. in app_carts views.py add_cart_view()
+
+
+--- COMMENT --
+How views send information to html files :
+n Django, a view is a Python function that takes a web request and returns a web response.
+ The response can be the HTML contents of a Web page, or a redirect, or a 404 error,
+ or an XML document, or an image... or anything, really. A view function is mapped
+ to one or more URL patterns. When a user navigates to one of those URLs,
+ Django runs the view function and returns the result to the user.
+
+In order to pass data from the view to the template, you can use the context dictionary.
+ The context dictionary is a Python dictionary that maps variable names to their values.
+ The keys in the dictionary correspond to variable names and the values correspond to the
+ data you want to pass to the template.
+
+In your views.py, you create a context dictionary, with the keys cart and cart_items
+and the values are the respective variables.
+
+context = {'cart': cart, 'cart_items': cart_items}
+
+return render(request, 'cart.html', context)
+
+In your HTML template, you can access the values stored in the context dictionary
+ by using the variable names as keys.
+
+ {% for cart_item in cart_items  %}
+
+ The value of cart_items is passed from the views.py file and is the same as the
+
+ The name of the dictionary passed to the render function has no impact on the
+ HTML file because the render function only uses the key-value pairs of the dictionary
+ to populate variables in the template. The names of the keys in the dictionary correspond
+ to the variable names in the template, and the values of the keys correspond to the data
+ that is displayed in the template.
+
+ When the render function is called, it takes the template and the dictionary as arguments.
+ The render function then uses the key-value pairs of the dictionary to replace the variable
+ names in the template with their corresponding values. The render function does not use the
+  name of the dictionary itself, it only uses the key-value pairs of the
+  dictionary to populate the template.
+
+ For example, in the views.py file, you can pass the data like this:
+
+
+ data = {'cart': cart, 'cart_items': cart_items}
+ return render(request, 'cart.html', data)
