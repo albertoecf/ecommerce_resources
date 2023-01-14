@@ -65,8 +65,8 @@
 					<div class="widget-header">
 						<small class="title text-muted">Welcome Visitor!</small>
 						<div>
-							<a href="./signin.html">Login</a> <span class="dark-transp"> | </span>
-							<a href="./register.html"> Registrar</a>
+							<a href="{% url 'app_accounts:login_view_path' %}">Login</a> <span class="dark-transp"> | </span>
+							<a href="{% url 'app_accounts:register_view_path' %}"> Register</a>
 						</div>
 					</div>
 					<a href="{% url  'cart_view_path' %}" class="widget-header pl-3 ml-3">
