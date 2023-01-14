@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .forms import RegistrationFormClass
 from .models import AccountClass
+from django.contrib import messages
 
 # Create your views here.
 
@@ -18,11 +19,12 @@ def register_view(request):
             user = AccountClass.objects.create_user(
                 first_name=first_name_from_form,
                 last_name=last_name_from_form,
-                username = username_from_form, 
+                username = username_from_form,
                 email=email_from_form,
                 password=password_from_form)
             user.save()
-
+            messages.success(request, 'User created')
+            return redirect('app_accounts:register_view_path')
     context_to_render={'form': form}
 
     return render(request, 'accounts/register.html', context_to_render)

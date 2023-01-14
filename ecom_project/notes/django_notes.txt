@@ -394,3 +394,12 @@ Register a  new user : Register the user in the database
 Validate password vs confirm_password
 66. in app_accounts forms.py we define clean() which will raise a form.ValidationError
     if passwords don't match. We include that in the the register html
+
+How to work with errors within forms?  we'll use the messages package
+ 67. in settings we import django.contrib.messages.constants as messages
+      and we set MESSAGE_TAGS to be css 'danger'
+      within our templates/includes we create a alerts.html file with some conditions
+      responding to django objects
+      We want to discard the alert after some time, we use static/js/script.js
+      to create a setTimeOut() function to fadeout the message after four seconds
+      we'll fire this when creating user -> register_view() and include it in register.html
