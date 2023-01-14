@@ -345,3 +345,36 @@ Register and login:
 61. templates/accounts/register.html
 In order to register an user we will work with django forms :
 62. In app_accounts we will create a forms.py
+    we create a Form class (forms.ModelForm) and include the fields we want to manage
+    We want to use this structure in the front end for the user (html template)
+    In order to achieve this communication we'll use register_view by instantiating
+    form = RegistrationFormClass() and send a context dictionary to our html file
+    As noted before, this context_to_render is a parameters which will
+      be used by register_view function.
+      Then we incorporate the {{ form }} object in our register.html file, which
+      renders a pre-build form
+Render the form in register.html :
+63. In the <form> tag we include : action = {% url_path %} and method = POST
+    Also {% csrf_token %}
+    We'll replace hardcoded tags for {{form}} attributes, i.e:
+    original : <input type="text" class="form-control" placeholder="">
+    replacement : {{form.first_name}}
+We want to validate the password, we need to incorporate this logic to the RegistrationFormClass
+64. app_accounts.forms.py , RegistrationFormClass we add password, confirm_password
+    By doing this we are including two text box from django forms.
+    As they are text boxes we can add styling to them
+    we'll use our pre created css class -> 'form-control'
+BONUS : we can create a method within our RegistrationFormClass to style ours fields
+This function is the constructor of the RegistrationFormClass class, which is a subclass
+  of forms.ModelForm and it is used to create a form for registering new users.
+This function sets placeholder text for the first_name, last_name, and email
+  fields and sets the CSS class 'form-control' for all fields.
+  The super() function is used to call the parent class's constructor to initialize the form.
+  It also sets the password and confirm_password fields with their own widgets.
+
+ A constructor is a special function in a class that runs when a new object of that class is created.
+ It sets up the initial state of the object, such as initializing its properties.
+ In this example, the __init__ function is the constructor of the RegistrationFormClass class.
+  It runs when a new object of this class is created, and it sets up the form
+  by setting default text and CSS class for the form fields, and it also call the
+   parent class's constructor to initialize the form.

@@ -8,57 +8,36 @@
         <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
           <article class="card-body">
             <header class="mb-4"><h4 class="card-title">Join us</h4></header>
-            <form>
+            <form action= "{% url 'app_accounts:register_view_path' %}" method="POST">
+                      {% csrf_token %}
+
                     <div class="form-row">
                         <div class="col form-group">
                             <label>Name</label>
-                              <input type="text" class="form-control" placeholder="">
+                              {{form.first_name}}
                         </div> <!-- form-group end.// -->
                         <div class="col form-group">
                             <label>Last Name</label>
-                              <input type="text" class="form-control" placeholder="">
+                              {{form.last_name}}
                         </div> <!-- form-group end.// -->
                     </div> <!-- form-row end.// -->
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" placeholder="">
-                        <small class="form-text text-muted">Sign up with peace of mind. No spam emails or shared info. #privacy</small>
-                    </div> <!-- form-group end.// -->
-                    <div class="form-group">
-                        <label class="custom-control custom-radio custom-control-inline">
-                          <input class="custom-control-input" checked="" type="radio" name="company_type" value="corporate">
-                          <span class="custom-control-label"> Corporate </span>
-                        </label>
-                        <label class="custom-control custom-radio custom-control-inline">
-                          <input class="custom-control-input" type="radio" name="company_type" value="individual">
-                          <span class="custom-control-label"> Individual </span>
-                        </label>
-                    </div> <!-- form-group end.// -->
+
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                          <label>City</label>
-                          <input type="text" class="form-control">
+                        <div class="col form-group">
+                            <label>Email</label>
+                              {{form.email}}
+                        <small class="form-text text-muted">Sign up with peace of mind. No spam emails or shared info. #privacy</small>
                         </div> <!-- form-group end.// -->
-                        <div class="form-group col-md-6">
-                          <label>Country</label>
-                          <select id="inputState" class="form-control">
-                            <option> Choose...</option>
-                              <option>Uzbekistan</option>
-                              <option>Russia</option>
-                              <option selected="">United States</option>
-                              <option>India</option>
-                              <option>Afganistan</option>
-                          </select>
-                        </div> <!-- form-group end.// -->
-                    </div> <!-- form-row.// -->
+                    </div> <!-- form-row end.// -->
+
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label>Create password</label>
-                            <input class="form-control" type="password">
+                            {{ form.password }}
                         </div> <!-- form-group end.// -->
                         <div class="form-group col-md-6">
                             <label>Confirm password</label>
-                            <input class="form-control" type="password">
+                            {{ form.confirm_password }}
                         </div> <!-- form-group end.// -->
                     </div>
                     <div class="form-group">
