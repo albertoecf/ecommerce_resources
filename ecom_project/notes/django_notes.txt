@@ -334,3 +334,8 @@ In your HTML template, you can access the values stored in the context dictionar
 
  data = {'cart': cart, 'cart_items': cart_items}
  return render(request, 'cart.html', data)
+
+User Management : Login, Logout, Register new user
+58. App_accounts : Create url.py and register it in project url.py
+59. app_acccounts views.py we create the view functions related to our paths
+    Within our templates folder we create a new folder for accounts
