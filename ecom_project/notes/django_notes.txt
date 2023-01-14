@@ -378,3 +378,28 @@ This function sets placeholder text for the first_name, last_name, and email
   It runs when a new object of this class is created, and it sets up the form
   by setting default text and CSS class for the form fields, and it also call the
    parent class's constructor to initialize the form.
+
+Register a  new user : Register the user in the database
+65. We need the model to insert the data in our db
+    In views.py we import AccountClass
+    As we need to capture user information (the user is doing a request.POST)
+    so, if request.method == "POST" we want to store those values (only if the form is valid)
+    if form.is_valid()
+      we'll create a user with that information..
+        user = AccountClass.objects.create_user()
+          [this creates the user but does not store it in the database, yet]
+    finally, we execute user.save() to save our user into database
+    form.save()
+    (we create the username as the first part of the email)
+Validate password vs confirm_password
+66. in app_accounts forms.py we define clean() which will raise a form.ValidationError
+    if passwords don't match. We include that in the the register html
+
+How to work with errors within forms?  we'll use the messages package
+ 67. in settings we import django.contrib.messages.constants as messages
+      and we set MESSAGE_TAGS to be css 'danger'
+      within our templates/includes we create a alerts.html file with some conditions
+      responding to django objects
+      We want to discard the alert after some time, we use static/js/script.js
+      to create a setTimeOut() function to fadeout the message after four seconds
+      we'll fire this when creating user -> register_view() and include it in register.html

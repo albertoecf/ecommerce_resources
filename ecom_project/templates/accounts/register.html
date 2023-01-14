@@ -7,6 +7,8 @@
     <!-- ============================ COMPONENT REGISTER   ================================= -->
         <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
           <article class="card-body">
+            {% include 'includes/alerts.html' %}
+
             <header class="mb-4"><h4 class="card-title">Join us</h4></header>
             <form action= "{% url 'app_accounts:register_view_path' %}" method="POST">
                       {% csrf_token %}
@@ -43,6 +45,8 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block"> Register  </button>
                     </div> <!-- form-group// -->
+
+                    {{form.non_field_errors}}
 
                 </form>
             </article><!-- card-body.// -->
