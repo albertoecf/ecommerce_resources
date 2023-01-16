@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .forms import RegistrationFormClass
 from .models import AccountClass
-from django.contrib import messages
+from django.contrib import messages, auth
 
 # Create your views here.
 
@@ -31,6 +31,19 @@ def register_view(request):
 
 
 def login_view(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+
+        user  = auth.authenticate(email=email, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+            return redirect("home_view_path")
+        else :
+            messages.error(request, "Invalid credentials")
+            return redirect("app_accounts:login_view_path")
+
     return render(request, 'accounts/login.html')
 
 
