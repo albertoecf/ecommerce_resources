@@ -6,15 +6,16 @@
 
     <!-- ============================ COMPONENT LOGIN   ================================= -->
         <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+          {% include 'includes/alerts.html' %}
           <div class="card-body">
           <h4 class="card-title mb-4">Login</h4>
           <form action="{% url 'app_accounts:login_view_path' %}">
               {% csrf_token %}
               <div class="form-group">
-                 <input type="email" class="form-control" placeholder="Email" >
+                 <input type="email" class="form-control" placeholder="Email" name="email">
               </div> <!-- form-group// -->
               <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" >
+                <input type="password" class="form-control" placeholder="Password" name='password'>
               </div> <!-- form-group// -->
 
               <div class="form-group">
@@ -28,7 +29,7 @@
           </div> <!-- card-body.// -->
         </div> <!-- card .// -->
 
-         <p class="text-center mt-4">No tienes una cuenta? <a href="#">Registrate</a></p>
+         <p class="text-center mt-4">No tienes una cuenta? <a href="{% url 'app_accounts:register_view_path' %}">Registrate</a></p>
          <br><br>
     <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
 
