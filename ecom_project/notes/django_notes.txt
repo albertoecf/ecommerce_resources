@@ -419,4 +419,14 @@ Logged in users , display log out and username
     wether the user is logged in or not.
 Loggin out users:
 71. In views.py we create a logout_view which will be wrapped by @login_required decorator
-    and if true, execute auth.logout() 
+    and if true, execute auth.logout()
+
+Validating user inputs : is the email valid? we want to check is the user has
+  access to the email address by asking to click a link.
+72. In views.py register_view we define our link -> current_site
+    And we create the email content in the variable "body", as we want to
+    render html we are sending some parameters to inject. (user, domain)
+    special information  :
+      * uid (user id) -> we can't send this type of info so
+        we encoded using urlsafe_base64_enconde
+      * token -> we'll use default_token_generator
