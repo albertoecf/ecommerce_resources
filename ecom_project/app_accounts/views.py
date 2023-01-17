@@ -3,7 +3,12 @@ from .forms import RegistrationFormClass
 from .models import AccountClass
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.core.mail import EmailMessage
 # Create your views here.
 
 
@@ -23,6 +28,20 @@ def register_view(request):
                 username=username_from_form,
                 email=email_from_form,
                 password=password_from_form)
+
+            current_site = get_current_site(request)
+            mail_subject = "Get started with Ceibo"
+            body = render_to_string('account/account_verification_email.html', {
+                'user': user,
+                'domain': current_site,
+                'uid': urlsafe_base64_enconde(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+            })
+
+            to_email = email
+            send_email = EmailMessage(mail_subject, body, to=[to_email])
+            send_email.send()
+
             user.save()
             messages.success(request, 'User created')
             return redirect('app_accounts:register_view_path')
@@ -48,7 +67,8 @@ def login_view(request):
 
     return render(request, 'accounts/login.html')
 
-@login_required(login_url = 'login_view_path')
+
+@login_required(login_url='login_view_path')
 def logout_view(request):
     auth.logout(request)
     messages.success(request, "See you soon!")

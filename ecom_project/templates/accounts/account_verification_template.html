@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Ceibo - Email Verification</title>
+  </head>
+  <body>
+    <h1>Hey {{ user.first_name }},</h1>
+    <p>Thanks for signing up to Ceibo!</p>
+    <p>To complete the registration process, please follow this <a href="http://{{domain}}{% url 'activate' uidb64=uid token=token %}">link</a> to verify your email address.</p>
+    <p>Don't worry, your information is safe with us. We're a young company that values transparency and straight-forward communication.</p>
+    <p>Once you've verified your email, you'll be able to start using all of our features and services.</p>
+    <p>See you soon!</p>
+    <p>The Ceibo Team</p>
+  </body>
+</html>
