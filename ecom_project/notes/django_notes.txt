@@ -403,3 +403,20 @@ How to work with errors within forms?  we'll use the messages package
       We want to discard the alert after some time, we use static/js/script.js
       to create a setTimeOut() function to fadeout the message after four seconds
       we'll fire this when creating user -> register_view() and include it in register.html
+
+Login :
+68. We include a login templatle in templates/accounts/login.html
+    We create a form with a POST method and named inputs
+    Those named inputs are going to be captured by our rendering view function
+      login_view(request):
+    And this function will validate the named form inputs : email, password
+    With django library -> auth.authenticate
+Login errors: We want to pop up /display errors
+69. Within login.html we include : {% include 'includes/alerts.html' %}
+    In our base.html we include jquery function to fade out the message after 4 seconds
+Logged in users , display log out and username
+70. In navbar.html we implement : {% if user.id is None %} to display different things
+    wether the user is logged in or not.
+Loggin out users:
+71. In views.py we create a logout_view which will be wrapped by @login_required decorator
+    and if true, execute auth.logout() 
