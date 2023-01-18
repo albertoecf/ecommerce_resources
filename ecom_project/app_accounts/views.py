@@ -28,23 +28,22 @@ def register_view(request):
                 username=username_from_form,
                 email=email_from_form,
                 password=password_from_form)
-
+            user.save()
             current_site = get_current_site(request)
             mail_subject = "Get started with Ceibo"
-            body = render_to_string('account/account_verification_email.html', {
+            body = render_to_string('accounts/account_verification_email.html', {
                 'user': user,
                 'domain': current_site,
-                'uid': urlsafe_base64_enconde(force_bytes(user.pk)),
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': default_token_generator.make_token(user),
             })
 
-            to_email = email
+            to_email = email_from_form
             send_email = EmailMessage(mail_subject, body, to=[to_email])
             send_email.send()
 
-            user.save()
-            messages.success(request, 'User created')
-            return redirect('app_accounts:register_view_path')
+            return redirect('/accounts/login/?command=verification&email='+email_from_form)
+
     context_to_render = {'form': form}
 
     return render(request, 'accounts/register.html', context_to_render)
@@ -73,3 +72,20 @@ def logout_view(request):
     auth.logout(request)
     messages.success(request, "See you soon!")
     return redirect('app_accounts:login_view_path')
+
+
+def activate_view(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = AccountClass._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, AccountClass.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, "Congrats, your account is active")
+        return redirect("app_accounts:login_view_path")
+    else:
+        messages.error(request, "Please try registering again")
+        return redirect("app_accounts:register_view_path")
