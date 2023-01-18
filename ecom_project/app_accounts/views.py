@@ -89,3 +89,35 @@ def activate_view(request, uidb64, token):
     else:
         messages.error(request, "Please try registering again")
         return redirect("app_accounts:register_view_path")
+
+@login_required
+def dashboard_view(request):
+    return render(request, "accounts/dashboard.html")
+
+def forgot_password_view(request):
+    if request.method == 'POST':
+        email_from_request = request.POST['email']
+        if AccountClass.objects.filter(email=email_from_request).exists():
+            user = AccountClass.objects.get(email__exact=email_from_request)
+
+            current_site = get_current_site(request)
+            mail_subject = "Reset your Password"
+            body = render_to_string("accounts/reset_password_email.html",{
+            'user':user,
+            'domain':current_site,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token':default_token_generator.make_token(user),
+            })
+            to_email = email_from_request
+            send_email  = EmailMessage(mail_subject, message, to=[to_email])
+            send_email.send()
+
+            messages.success(request, "Please check your email, we sent you a link to reset your password")
+
+            return redirect("app_accounts:login_view_path")
+
+        else :
+            messages.error(request, "Email does not exist")
+            return redirect("app_accounts:forgot_password_view_path")
+
+    return render(request, "accounts/forgotPassword.html")

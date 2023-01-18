@@ -435,3 +435,5 @@ Validating user inputs : is the email valid? we want to check is the user has
 
 We need to configure an email account to access google servers to send the email
 74. In settings.py we define EMAIL_HOST
+
+Forgot password:
