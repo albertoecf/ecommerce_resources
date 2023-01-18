@@ -437,3 +437,7 @@ We need to configure an email account to access google servers to send the email
 74. In settings.py we define EMAIL_HOST
 
 Forgot password:
+75. Create a path, view function and template to achieve the functionality
+    In forgot_password_view we send an email with EmailMessage().send()
+Regenerate the password :
+76. We're going to create a new view function -> resetpassword_validate_view with the logic

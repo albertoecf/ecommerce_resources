@@ -96,7 +96,7 @@ def dashboard_view(request):
 
 def forgot_password_view(request):
     if request.method == 'POST':
-        email_from_request = request.POST['email']
+        email_from_request = request.POST.get ('email')
         if AccountClass.objects.filter(email=email_from_request).exists():
             user = AccountClass.objects.get(email__exact=email_from_request)
 
@@ -109,7 +109,7 @@ def forgot_password_view(request):
             'token':default_token_generator.make_token(user),
             })
             to_email = email_from_request
-            send_email  = EmailMessage(mail_subject, message, to=[to_email])
+            send_email  = EmailMessage(mail_subject, body, to=[to_email])
             send_email.send()
 
             messages.success(request, "Please check your email, we sent you a link to reset your password")
@@ -121,3 +121,37 @@ def forgot_password_view(request):
             return redirect("app_accounts:forgot_password_view_path")
 
     return render(request, "accounts/forgotPassword.html")
+
+def reset_password_validate_view(request,uidb64 , token):
+    try :
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = AccountClass._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, AccountClass.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user,token):
+        request.session['uid'] = uid
+        messages.success(request, 'Please, reset your password')
+        return redirect("app_accounts:reset_password_view_path")
+    else :
+        messages.error(request, "Link has expired")
+        return redirect("app_accounts:login_view_path")
+
+def reset_password_view(request):
+    if request.method == 'POST':
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+
+        if password == confirm_password:
+            uid = request.session.get('uid')
+            user = AccountClass.objects.get(pk=uid)
+            user.set_password(password)
+            user.save()
+            messages.success(request, 'Password reset correctly')
+            return redirect('app_accounts:login_view_path')
+
+        else :
+            messages.error(request,"Password confirmation does not match")
+            return redirect("app_accounts:reset_password_view_path")
+    else :
+        return render(request, "accounts/reset_password.html")
