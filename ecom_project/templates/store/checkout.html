@@ -13,6 +13,7 @@
           <div class="card-body">
             <h4 class="card-title mb-4">Billing Address</h4>
             <form class="" action="index.html" method="post">
+              { csrf_token }
               <div class="form-row">
                 <div class="col form-group">
                   <label for="">Name</label>
@@ -64,7 +65,7 @@
 
             </div>
 
-            </form>
+
 
           </div>
 
@@ -81,7 +82,6 @@
                   <th scope="col">Product</th>
                   <th scope="col" width="120">Quantity</th>
                   <th scope="col" width="120">Price</th>
-                  <th scope="col" class="text-right" width="200"> </th>
                 </tr>
               </thead>
               <tbody>
@@ -105,17 +105,7 @@
                   </td>
                   <td>
                     <!-- col.// -->
-                    <div class="col">
-                      <div class="input-group input-spinner">
-                        <div class="input-group-prepend">
-                          <a href="{% url 'remove_cart_view_path' cart_item.product.id  %}" class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
-                        </div>
-                        <input type="text" class="form-control"  value="{{ cart_item.quantity }}">
-                        <div class="input-group-append">
-                          <a href="{% url 'add_cart_view_path' cart_item.product.id  %}" class="btn btn-light" type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
-                        </div>
-                      </div> <!-- input-group.// -->
-                    </div> <!-- col.// -->
+                  <label for=""> {{cart_item.quantity}} </label>
                   </td>
                   <td>
                     <div class="price-wrap">
@@ -123,15 +113,14 @@
                       <small class="text-muted"> €{{ cart_item.product.price }}/month </small>
                     </div> <!-- price-wrap .// -->
                   </td>
-                  <td class="text-right">
-                    <a href="{% url 'remove_item_from_cart_view_path' cart_item.product.id  %}" class="btn btn-danger"> Delete</a>
-                  </td>
+
                 </tr>
                 {% endfor %}
               </tbody>
             </table>
-            <a href="./place-order.html" class="btn btn-primary btn-block"> Order products </a>
+            <button type="submit" name="submit" class="btn btn-primary btn-block">Order Products</button>
             <a href="{% url 'app_store:store_view_path' %}" class="btn btn-light btn-block"> Keep buying </a>
+            </form>
           </div> <!-- card-body.// -->
         </div> <!-- card.// -->
 

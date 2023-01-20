@@ -441,3 +441,13 @@ Forgot password:
     In forgot_password_view we send an email with EmailMessage().send()
 Regenerate the password :
 76. We're going to create a new view function -> resetpassword_validate_view with the logic
+
+Checkout
+77. in app carts we create path, view, template
+    We want to display our products and it's details
+
+We want to display/enable paying the order to user only.
+So we set decorator @login_required in the function view.
+What about users who are not logged in, they create the shopping cart and want to pay?
+As we ask for them to logg in befor pay, we should store CartItem 's information. We alter the class to be
+matched with the user and we retrieve those values with a condition from rendering view function

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from app_store.models import ProductClass, VariationClass
 from .models import CartClass, CartItemClass
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 
 # We need a local only function -> def _name_of_the_function
@@ -105,6 +106,42 @@ def cart_view(request, total=0, quantity=0, cart_items=None):
     tax = 0
     grand_total = 0
     try:
+        if request.user.is_authenticated:
+            cart_items = CartItemClass.objects.filter(user=request.user, is_active=True)
+        else:
+            # We check if we have some current/existing cart in our database
+            cart = CartClass.objects.get(cart_id=_cart_id(request))
+            # If we have that cart, we want its items
+            cart_items = CartItemClass.objects.filter(
+                cart=cart, is_active=True)
+
+        for cart_item in cart_items:
+            total += (cart_item.product.price * cart_item.quantity)
+            quantity += cart_item.quantity
+
+        tax = (2 * total) / 100
+        grand_total = total + tax
+
+    except ObjectDoesNotExist:
+        # this will be only excecuted whrn object does not exist
+        pass
+
+    context_to_send = {
+        'total': total,
+        'quantity': quantity,
+        'cart_items': cart_items,
+        'tax': tax,
+        'grand_total': grand_total
+    }
+
+    return render(request, 'store/cart.html', context_to_send)
+
+
+@login_required(login_url='app_accounts:login_view_path')
+def checkout_view(request, total=0, quantity=0, cart_items=None):
+    tax = 0
+    grand_total = 0
+    try:
         # We check if we have some current/existing cart in our database
         cart = CartClass.objects.get(cart_id=_cart_id(request))
         # If we have that cart, we want its items
@@ -124,13 +161,9 @@ def cart_view(request, total=0, quantity=0, cart_items=None):
     context_to_send = {
         'total': total,
         'quantity': quantity,
-        'cart': cart,
         'cart_items': cart_items,
         'tax': tax,
         'grand_total': grand_total
     }
 
-    return render(request, 'store/cart.html', context_to_send)
-
-def checkout_view(request):
-    return render(request, 'store/checkout.html')
+    return render(request, 'store/checkout.html', context_to_send)

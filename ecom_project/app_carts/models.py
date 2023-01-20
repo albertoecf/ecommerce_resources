@@ -1,5 +1,6 @@
 from django.db import models
 from app_store.models import ProductClass, VariationClass
+from app_accounts.models import AccountClass
 
 # Create your models here.
 
@@ -12,9 +13,10 @@ class CartClass(models.Model):
 
 class CartItemClass(models.Model):
     """Product which was selected and will be buy (or not) in the future"""
+    user = models.ForeignKey(AccountClass, on_delete=models.CASCADE , null=True)
     product = models.ForeignKey(ProductClass, on_delete = models.CASCADE)
     variations = models.ManyToManyField(VariationClass, blank=True)
-    cart = models.ForeignKey(CartClass, on_delete = models.CASCADE)
+    cart = models.ForeignKey(CartClass, on_delete = models.CASCADE, null=True)
     quantity = models.IntegerField()
     is_active = models.BooleanField(default=True)
 
