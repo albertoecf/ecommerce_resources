@@ -6,9 +6,12 @@ def counter(request):
 
     try :
         cart_fetched = CartClass.objects.filter(cart_id=_cart_id(request))
-        cart_items = CartItemClass.objects.all().filter(cart = cart_fetched[ :1])
-        # We want the sum of all items (item_id * quantity)
+        if request.user.is_authenticated:
+            cart_items = CartItemClass.objects.all().filter(user=request.user)
+        else:
+            cart_items = CartItemClass.objects.all().filter(cart = cart_fetched[ :1])
 
+        # We want the sum of all items (item_id * quantity)
         for cart_item in cart_items:
             cart_items_count  += cart_item.quantity
 
