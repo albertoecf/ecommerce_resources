@@ -158,32 +158,42 @@ def add_cart_view(request, product_id):
 
 
 def remove_unit_item_from_cart(request, product_id, cart_item_id):
-        cart_request = CartClass.objects.get(cart_id=_cart_id(request))
-        product_request = get_object_or_404(ProductClass, id=product_id)
-        try:
-            cart_item = CartItemClass.objects.get(
-                product=product_request, cart=cart_request, id=cart_item_id)
+    """Removes a single unit of an item from the cart for the current session.
+    If the item's quantity becomes 0 after removing a unit, the item is removed
+    from the cart completely.
 
-            if cart_item.quantity > 1:
-                cart_item.quantity -= 1
-                cart_item.save()
-            else:
-                cart_item.delete()
-        except:
-            pass
+    Parameters:
+    request (HttpRequest): The request object containing the current session.
+    product_id (int): The id of the product to remove from the cart.
+    cart_item_id (int): The id of the cart item to remove the unit from.
 
-        return redirect('cart_view_path')
+    Returns:
+    None"""
+    current_user = request.user
+    cart_item = get_object_or_404(CartItemClass, id=cart_item_id)
+    if cart_item.product.id == product_id and cart_item.user == current_user:
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+        else:
+            cart_item.delete()
+    return redirect('cart_view_path')
+
 
 
 def remove_item_from_cart(request, product_id):
-    cart_request = CartClass.objects.get(cart_id=_cart_id(request))
-    product_request = get_object_or_404(ProductClass, id=product_id)
-    cart_item = CartItemClass.objects.get(
-        product=product_request, cart=cart_request)
+    product = get_object_or_404(ProductClass, id=product_id)
+    current_user = request.user
+    if current_user.is_authenticated:
+        cart_item = CartItemClass.objects.filter(product=product, user=current_user)
+    else:
+        cart_id = _cart_id(request)
+        cart_item = CartItemClass.objects.filter(product=product, cart__cart_id=cart_id)
 
-    cart_item.delete()
-
+    if cart_item.exists():
+        cart_item.delete()
     return redirect('cart_view_path')
+
 
 
 def cart_view(request, total=0, quantity=0, cart_items=None):
