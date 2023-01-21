@@ -11,6 +11,7 @@ from django.utils.encoding import force_bytes
 from django.core.mail import EmailMessage
 from app_carts.views import _cart_id
 from app_carts.models import CartClass, CartItemClass
+import requests
 # Create your views here.
 
 
@@ -66,43 +67,30 @@ def login_view(request):
                 cart = CartClass.objects.get(cart_id = _cart_id(request))
                 print("Cart initiated")
                 is_cart_item_exists = CartItemClass.objects.filter(cart=cart).exists()
-
+                print("no carts were found")
                 if is_cart_item_exists:
                     print('cart_items_exist : ')
                     cart_item = CartItemClass.objects.filter(cart=cart)
-
-                    prouct_variation = []
                     for item in cart_item:
-                        variation = item.variations.all()
-                        product_variation.append(list(variation))
-
-                    cart_item = CartItemClass.objects.filter(user=user)
-                    ex_var_list = []
-                    id = []
-                    for item in cart_item:
-                        existing_variation = item.variations.all()
-                        ex_var_list.append(list(existing_variation))
-                        id.append(item.id)
-
-                    for pr in product_variation:
-                        if pr in ex_var_list:
-                            index = ex_var_list.index(pr)
-                            item_id = id[index]
-                            item = CartItemClass.objects.get(id=item_id)
-                            item.quantity +=1
-                            item.user = user
-                            item.save()
-                        else:
-                            cart_item = CartItemClass.objects.filter(cart=cart)
-                            for item in cart_item:
-                                item.user = user
-                                item.save()
+                        print("foor loop")
+                        item.user = user
+                        item.save()
             except:
-                print("did not match the cart with the user")
                 pass
 
             auth.login(request, user)
-            return redirect("home_view_path")
+            messages.success(request, "You are logged in now")
+
+            url_from_request = request.META.get("HTTP_REFERER")
+            try:
+                query = requests.utils.urlparse(url_from_request).query
+                params = dict(x.split("=") for x in query.split("&"))
+                if "next" in params :
+                    next_page = params['next']
+                    return redirect(next_page)
+            except:
+                return redirect("home_view_path")
+
         else:
             messages.error(request, "Invalid credentials")
             return redirect("app_accounts:login_view_path")
