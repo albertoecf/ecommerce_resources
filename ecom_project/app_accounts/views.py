@@ -66,14 +66,37 @@ def login_view(request):
                 cart = CartClass.objects.get(cart_id = _cart_id(request))
                 print("Cart initiated")
                 is_cart_item_exists = CartItemClass.objects.filter(cart=cart).exists()
-                print("no carts were found")
+
                 if is_cart_item_exists:
                     print('cart_items_exist : ')
                     cart_item = CartItemClass.objects.filter(cart=cart)
+
+                    prouct_variation = []
                     for item in cart_item:
-                        print("foor loop")
-                        item.user = user
-                        item.save()
+                        variation = item.variations.all()
+                        product_variation.append(list(variation))
+
+                    cart_item = CartItemClass.objects.filter(user=user)
+                    ex_var_list = []
+                    id = []
+                    for item in cart_item:
+                        existing_variation = item.variations.all()
+                        ex_var_list.append(list(existing_variation))
+                        id.append(item.id)
+
+                    for pr in product_variation:
+                        if pr in ex_var_list:
+                            index = ex_var_list.index(pr)
+                            item_id = id[index]
+                            item = CartItemClass.objects.get(id=item_id)
+                            item.quantity +=1
+                            item.user = user
+                            item.save()
+                        else:
+                            cart_item = CartItemClass.objects.filter(cart=cart)
+                            for item in cart_item:
+                                item.user = user
+                                item.save()
             except:
                 print("did not match the cart with the user")
                 pass
