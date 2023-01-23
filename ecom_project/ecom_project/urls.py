@@ -26,4 +26,5 @@ urlpatterns = [
     path('store/', include('app_store.urls')),
     path('cart/', include('app_carts.urls')),
     path('accounts/', include('app_accounts.urls')),
+    path('orders/', include('app_orders.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

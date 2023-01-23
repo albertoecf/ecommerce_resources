@@ -461,3 +461,6 @@ Working with orders: we need to
     app_orders.models -> Create 3 classes (PaymentClass, OrderClass , OrderProductClass)
     app_orders.admin -> Register our models in admin
     python manage.py makemigrations
+When a user decides to buy / place a order , we need to capture many values from
+its request. That's why we are going to work with forms
+79. create app_orders.forms.py
