@@ -463,4 +463,4 @@ Working with orders: we need to
     python manage.py makemigrations
 When a user decides to buy / place a order , we need to capture many values from
 its request. That's why we are going to work with forms
-79. create app_orders.forms.py
+79. create app_orders.forms.py and views.py
