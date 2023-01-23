@@ -451,3 +451,16 @@ So we set decorator @login_required in the function view.
 What about users who are not logged in, they create the shopping cart and want to pay?
 As we ask for them to logg in befor pay, we should store CartItem 's information. We alter the class to be
 matched with the user and we retrieve those values with a condition from rendering view function
+
+Working with orders: we need to
+  start new app -> app_orders
+  create 3 tables -> orders (address, date etc), products in that oder
+  and payment corresponding to that order
+
+78. python manage.py startapp app_orders , settings.py -> INSTALLED_APP += 'app_orders'
+    app_orders.models -> Create 3 classes (PaymentClass, OrderClass , OrderProductClass)
+    app_orders.admin -> Register our models in admin
+    python manage.py makemigrations
+When a user decides to buy / place a order , we need to capture many values from
+its request. That's why we are going to work with forms
+79. create app_orders.forms.py and views.py
