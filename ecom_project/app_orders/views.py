@@ -6,6 +6,10 @@ import datetime
 # Create your views here.
 
 
+def payments_view(request):
+    return render(request, 'orders/payments.html')
+
+
 def place_order_view(request, total=0, quantity=0):
     print('place order view executed')
     current_user = request.user
@@ -33,7 +37,7 @@ def place_order_view(request, total=0, quantity=0):
             data = OrderClass()
             data.user = current_user
             data.first_name = form.cleaned_data['first_name']
-            data.last_name = form.cleaned_data['last_name']        
+            data.last_name = form.cleaned_data['last_name']
             data.email = form.cleaned_data['email']
             data.address_line_1 = form.cleaned_data['address_line_1']
             data.address_line_2 = form.cleaned_data['address_line_2']
@@ -55,7 +59,18 @@ def place_order_view(request, total=0, quantity=0):
             order_number = current_date + str(data.id)
             data.order_number = order_number
             data.save()
-            return redirect("checkout_view_path")
+
+            order = OrderClass.objects.get(
+                user=current_user, is_ordered=False, order_number=order_number)
+
+            dic_to_render = {
+                'order': order,
+                'cart_items': cart_items,
+                'total': total,
+                'tax': tax,
+                'grand_total': grand_total,
+            }
+            return render(request, 'orders/payments.html', dic_to_render)
 
         else:
             return redirect("checkout_view_path")
