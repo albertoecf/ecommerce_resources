@@ -3,10 +3,27 @@ from app_carts.models import CartItemClass
 from .forms import OrderFormClass
 from .models import OrderClass
 import datetime
+from .models import OrderClass, PaymentClass
+import json
 # Create your views here.
 
 
 def payments_view(request):
+    body = json.loads(request.body)
+    order = OrderClass.objects.get(
+        user=request.user, is_ordered=False, order_number=body['orderID'])
+
+    payment = PaymentClass(
+        user=request.user,
+        payment_id=body['transID'],
+        payment_method=body['payment_method'],
+        amount_id=order.order_total,
+        status=body['status']
+    )
+    payment.save()
+    order.payment = payment
+    order.is_order = True
+    order.save()
     return render(request, 'orders/payments.html')
 
 
@@ -72,5 +89,5 @@ def place_order_view(request, total=0, quantity=0):
             }
             return render(request, 'orders/payments.html', dic_to_render)
 
-    else:
-        return redirect("checkout_view_path")
+        else:
+            return redirect("checkout_view_path")
