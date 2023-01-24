@@ -484,3 +484,34 @@ NOTE: Redirect vs render (from django.shortcuts import render, redirect)
 Payment flow : Show the services to the user, price and database data.
 80. in place_order_view we need to change redirect for render as we need to pass
     some data to it
+
+We want to store payments information in our database
+NOTE:
+The first block of code is a JavaScript function named getCookie which retrieves
+the value of a specific cookie from the browser. The function accepts one parameter,
+ name, which is the name of the cookie to be retrieved. It first sets a variable
+ cookieValue to null, then checks if there are any cookies stored in the browser
+ and if the document.cookie variable is not an empty string. If so, it splits the
+ cookies by the ; character into an array and loops through each cookie.
+ For each cookie, it trims any leading or trailing whitespace and checks if the
+ current cookie starts with the name of the desired cookie plus an equal sign.
+  If so, it decodes the cookie's value using the decodeUriComponent function and
+   assigns it to the cookieValue variable. It then breaks out of the loop.
+   Finally, the function returns the cookieValue variable.
+
+The second block of code is JavaScript that is executed after the user completes
+ the payment process. The first line is a console.log statement that logs the
+ orderData object which contains information about the order like the transaction ID, status, etc.
+
+The next block is a function named sendData which sends a POST request to the server
+with information about the order. The fetch method is used to send the request.
+The first parameter is the url of the server-side endpoint that will handle the
+payment information.
+The second parameter is an object that contains information about the request
+such as the method, headers, and body. The method is set to 'POST', the headers
+ include the "Content-type" and "X-CSRFToken" to send the data in JSON format and
+ to include the csrf token for security reasons. The body of the request is a
+ stringified JSON object that contains the orderID, transID, payment_method, and status of the order.
+
+The then method is used to handle the response from the server and it parses
+the response as json and logs it to the console.
