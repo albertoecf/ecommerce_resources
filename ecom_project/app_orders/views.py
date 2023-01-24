@@ -18,11 +18,11 @@ def payments_view(request):
         payment_id=body['transID'],
         payment_method=body['payment_method'],
         amount_id=order.order_total,
-        status=body['status']
+        status=body['status'],
     )
     payment.save()
     order.payment = payment
-    order.is_order = True
+    order.is_ordered = True
     order.save()
     return render(request, 'orders/payments.html')
 
