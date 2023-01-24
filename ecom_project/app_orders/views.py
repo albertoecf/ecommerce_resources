@@ -4,7 +4,8 @@ from .forms import OrderFormClass
 from .models import OrderClass
 import datetime
 # Create your views here.
-
+def payments_view(request):
+    return render(request, 'orders/payments.html')
 
 def place_order_view(request, total=0, quantity=0):
     print('place order view executed')
@@ -33,7 +34,7 @@ def place_order_view(request, total=0, quantity=0):
             data = OrderClass()
             data.user = current_user
             data.first_name = form.cleaned_data['first_name']
-            data.last_name = form.cleaned_data['last_name']        
+            data.last_name = form.cleaned_data['last_name']
             data.email = form.cleaned_data['email']
             data.address_line_1 = form.cleaned_data['address_line_1']
             data.address_line_2 = form.cleaned_data['address_line_2']

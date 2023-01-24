@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="section-content padding-y bg">
+  <div class="container">
+
+    <!-- ============================ COMPONENT 1 ================================= -->
+    <div class="row">
+      <aside class="col-lg-8">
+        <div class="card">
+          <h5 class="card-header">Builling Address</h5>
+          <div class="card-body">
+            <p class="card-text">This is your address</p>
+          </div>
+        </div> <!-- card.// -->
+
+        <div class="card">
+          <h5 class="card-header">Payment Method</h5>
+          <div class="card-body">
+            <p class="card-text">This is your payment method</p>
+          </div>
+        </div> <!-- card.// -->
+
+        <div class="card">
+          <h5 class="card-header">Services revision</h5>
+          <div class="card-body">
+            <p class="card-text">Here your services</p>
+          </div>
+        </div> <!-- card.// -->
+
+
+      </aside> <!-- col.// -->
+      <aside class="col-lg-4">
+
+        <div class="card">
+          <div class="card-body">
+            <dl class="dlist-align">
+              <dt>Monthly Total price:</dt>
+              <dd class="text-right">€ {{total}}</dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt>Tax:</dt>
+              <dd class="text-right">€ {{tax}}</dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt>Total:</dt>
+              <dd class="text-right text-dark b"><strong>€ {{grand_total}} </strong></dd>
+            </dl>
+            <hr>
+            <p class="text-center mb-3">
+              <img src="{% static './images/misc/payments.png' %}" height="26">
+            </p>
+            <a href="{% url 'checkout_view_path' %}" class="btn btn-primary btn-block"> Pay </a>
+          </div> <!-- card-body.// -->
+        </div> <!-- card.// -->
+
+      </aside> <!-- col.// -->
+
+
+    </div> <!-- row.// -->
+    <!-- ============================ COMPONENT 1 END .// ================================= -->
+  </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+{% endblock %}
