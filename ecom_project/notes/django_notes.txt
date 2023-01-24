@@ -464,3 +464,23 @@ Working with orders: we need to
 When a user decides to buy / place a order , we need to capture many values from
 its request. That's why we are going to work with forms
 79. create app_orders.forms.py and views.py
+
+NOTE: Redirect vs render (from django.shortcuts import render, redirect)
+      we use redirect to take the user to other page (no parameters involved)
+      render and redirect are both functions from django.shortcuts that are used
+       to handle requests and responses in a Django view.
+       render is used to return an HTML template to the browser, along with a context,
+      which is a dictionary containing data that the template can use to render the response.
+      For example, you might use render to display a list of items from a database,
+      where the context would include the list of items.
+      redirect is used to redirect the browser to a different URL, typically after a
+      successful form submission or other action. For example, you might use redirect
+      to redirect the user to a page displaying a confirmation message after they
+      submit an order.
+
+      In summary, use render when you want to show an html template with some data,
+      and use redirect when you want to redirect the user to another url
+
+Payment flow : Show the services to the user, price and database data.
+80. in place_order_view we need to change redirect for render as we need to pass
+    some data to it
