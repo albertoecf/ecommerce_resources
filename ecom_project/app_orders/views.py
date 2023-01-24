@@ -72,5 +72,5 @@ def place_order_view(request, total=0, quantity=0):
             }
             return render(request, 'orders/payments.html', dic_to_render)
 
-        else:
-            return redirect("checkout_view_path")
+    else:
+        return redirect("checkout_view_path")
