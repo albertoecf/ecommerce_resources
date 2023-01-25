@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from app_carts.models import CartItemClass
 from .forms import OrderFormClass
-from .models import OrderClass
 import datetime
-from .models import OrderClass, PaymentClass
+from .models import OrderClass, PaymentClass, OrderProductClass
 import json
 # Create your views here.
 
@@ -24,6 +23,21 @@ def payments_view(request):
     order.payment = payment
     order.is_ordered = True
     order.save()
+
+    # Mover todos los carritos items to la tabla order product
+    cart_items  = CartItemClass.objects.filter(user=request.user)
+
+    for item in cart_items:
+        orderproduct = OrderProductClass()
+        orderproduct.order_id = order.id
+        orderproduct.payment = payment
+        orderproduct.user_id = request.user.id
+        orderproduct.product_id = item.product_id
+        orderproduct.quantity  = item.quantity
+        orderproduct.product_price = item.product.price
+        orderproduct.ordered = True
+        orderproduct.save()
+
     return render(request, 'orders/payments.html')
 
 
