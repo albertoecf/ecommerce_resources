@@ -4,6 +4,7 @@ from app_store.models import ProductClass, VariationClass
 
 # Create your models here.
 
+
 class PaymentClass(models.Model):
     user = models.ForeignKey(AccountClass, on_delete=models.CASCADE)
     payment_id = models.CharField(max_length=100)
@@ -14,6 +15,7 @@ class PaymentClass(models.Model):
 
     def __str__(self):
         return self.payment_id
+
 
 class OrderClass(models.Model):
     STATUS = {
@@ -63,7 +65,7 @@ class OrderProductClass(models.Model):
     user = models.ForeignKey(AccountClass, on_delete=models.CASCADE)
     product = models.ForeignKey(ProductClass, on_delete=models.CASCADE)
     variation = models.ManyToManyField(VariationClass, blank=True)
-    quantity= models.IntegerField()
+    quantity = models.IntegerField()
     product_price = models.FloatField()
     ordered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

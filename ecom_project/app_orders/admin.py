@@ -2,9 +2,11 @@ from django.contrib import admin
 from .models import PaymentClass, OrderClass, OrderProductClass
 # Register your models here.
 
+
 class OrderProductInLineClass(admin.TabularInline):
     model = OrderProductClass
-    readonly_fields = ('payment','user','product','quantity','product_price')
+    readonly_fields = ('payment', 'user', 'product',
+                       'quantity', 'product_price')
     extra = 0
 
 
