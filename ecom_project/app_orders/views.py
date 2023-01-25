@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from app_carts.models import CartItemClass
 from .forms import OrderFormClass
 import datetime
 from .models import OrderClass, PaymentClass, OrderProductClass
 import json
 from app_store.models import ProductClass
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 # Create your views here.
 
 
@@ -49,9 +52,25 @@ def payments_view(request):
         product.stock -= item.quantity
         product.save()
 
-        CartItemClass.objects.filter(user=request.user).delete()
+    CartItemClass.objects.filter(user=request.user).delete()
 
-    return render(request, 'orders/payments.html')
+    mail_subject = "Thanks for choosing us"
+    body = render_to_string("orders/order_received_email.html", {
+        'user': request.user,
+        'order': order,
+    })
+
+    to_email = request.user.email
+    send_email = EmailMessage(mail_subject, body, to=[to_email])
+    send_email.send()
+
+    info_to_render = {
+    "order_number":order.order_number,
+    "transID" : payment.payment_id ,
+
+    }
+
+    return JsonResponse(info_to_render)
 
 
 def place_order_view(request, total=0, quantity=0):
@@ -118,3 +137,7 @@ def place_order_view(request, total=0, quantity=0):
 
         else:
             return redirect("checkout_view_path")
+
+
+def order_completed_view(request):
+    return render(request, 'orders/order_completed.html')
