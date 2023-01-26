@@ -140,4 +140,30 @@ def place_order_view(request, total=0, quantity=0):
 
 
 def order_completed_view(request):
-    return render(request, 'orders/order_completed.html')
+
+    order_number  = request.GET.get('order_number')
+    transID = request.GET.get('payment_id')
+    print('a')
+    try:
+        order = OrderClass.objects.get(order_number=order_number, is_ordered=True)
+        ordered_products = OrderProductClass.objects.filter(order_id=order.id)
+        print('b')
+        subtotal = 0
+
+        for i in ordered_products:
+            subtotal += i.quantity * i.product_price
+        print('c')
+        payment = PaymentClass.objects.get(payment_id=transID)
+        print('cc')
+        context_to_render = {
+        'order':order,
+        'ordered_products':ordered_products,
+        'transID':payment.payment_id,
+        'payment':payment,
+        'subtotal':subtotal,
+        }
+        print('D')
+        return render(request,'orders/order_completed.html', context_to_render)
+
+    except(PaymentClass.DoesNotExist, OrderClass.DoesNotExist):
+        return redirect('home_view_path')
