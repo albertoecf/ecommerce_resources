@@ -86,6 +86,37 @@
 
         </header>
 
+        <form class="" action="" method="POST">
+          {% csrf_token %}
+
+          <h5>Write your Comment : </h5>
+          <div class="">
+            <label for="">How was your experience?</label>
+            <br>
+            <div class="rate">
+              <input type="radio" name="rating" value="5" id = "rating10">
+              <input type="radio" name="rating" value="4.5" id = "rating9">
+              <input type="radio" name="rating" value="4" id = "rating8">
+              <input type="radio" name="rating" value="3.5" id = "rating7">
+              <input type="radio" name="rating" value="3" id = "rating6">
+              <input type="radio" name="rating" value="2.5" id = "rating5">
+              <input type="radio" name="rating" value="2" id = "rating4">
+              <input type="radio" name="rating" value="1.5" id = "rating3">
+              <input type="radio" name="rating" value="1" id = "rating2">
+              <input type="radio" name="rating" value="0.5" id = "rating1">
+              <input type="radio" name="rating" value="0" id = "rating0">
+            </div>
+            Comment title:
+            <input type="text" class="form-control" name="subject" value="">
+            <br>
+            Comment:
+            <textarea name="comment" rows="4" class="form-control"></textarea>
+            <br>
+            <input type="submit" name="" value="Submit comment" class="btn btn-primary">
+          </div>
+
+        </form>
+
         <article class="box mb-3">
           <div class="icontext w-100">
             <img src="./images/avatars/avatar1.jpg" class="img-xs icon rounded-circle">
