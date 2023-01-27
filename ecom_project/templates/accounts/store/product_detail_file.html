@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section-content padding-y bg">
+  <div class="container">
+
+    <!-- ============================ COMPONENT 1 ================================= -->
+    <div class="card">
+      <div class="row no-gutters">
+        <aside class="col-md-6">
+          <article class="gallery-wrap">
+            <div class="img-big-wrap">
+              <a href="#"><img src="{{single_product.images.url}}"></a>
+            </div> <!-- img-big-wrap.// -->
+
+          </article> <!-- gallery-wrap .end// -->
+        </aside>
+        <main class="col-md-6 border-left">
+          <form action="{% url 'add_cart_view_path' single_product.id %}" method="POST">
+            {% csrf_token %}
+
+            <article class="content-body">
+
+              <h2 class="title">{{ single_product.product_name }}</h2>
+
+              <div class="mb-3">
+                <var class="price h4">€{{single_product.price}}/month</var>
+              </div>
+              <p>{{single_product.description}}</p>
+              <hr>
+              <div class="row">
+                <div class="item-option-select">
+                  <h6>Stages of Business </h6>
+                  <select class="form-control" name="choose_business_stage">
+                    <option value="" disabled selected>Please Select</option>
+                    {% for i in single_product.variationclass_set.company_stage %}
+                    <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div> <!-- row.// -->
+              <div class="row">
+                <div class="item-option-select">
+                  <h6>Company Size</h6>
+                  <select class="form-control" name="choose_business_size">
+                    <option value="" disabled selected>Please Select</option>
+                    {% for i in single_product.variationclass_set.company_size %}
+                    <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div> <!-- row.// -->
+              <hr>
+              {% if single_product.stock <= 0 %}
+              <h5>No Stock</h5>
+              {% else %}
+              {% if in_cart %}
+              <a href="{% url 'add_cart_view_path' single_product.id %}" class="btn  btn-success ">
+                <span class="text">Product Added</span>
+                <i class="fas fa-check"></i> </a>
+
+                <a href="{% url 'cart_view_path' %}" class="btn  btn-outline-primary ">
+                  <span class="text">Go to Cart</span>
+                  <i class="fas fa-eye"></i> </a>
+
+                  {% else %}
+                  <button type="submit" name="button" class="btn btn-primary"><span class="text">Add to Cart</span><i class="fas fa-shopping-cart"></i></button>
+
+                  {% endif %}
+
+                  {% endif %}
+                </article> <!-- product-info-aside .// -->
+              </form>
+            </main> <!-- col.// -->
+          </div> <!-- row.// -->
+        </div> <!-- card.// -->
+        <!-- ============================ COMPONENT 1 END .// ================================= -->
+
+        <br>
+
+        <div class="row">
+          <div class="col-md-9">
+
+            <header class="section-heading">
+              <h3>Customer Reviews </h3>
+
+            </header>
+
+            <form action="{% url 'app_store:submit_review_view_path' single_product.id %}" method="POST">
+              {% csrf_token %}
+
+              <h5>Write your Comment : </h5>
+              <div class="">
+                <label for="">How was your experience?</label>
+                <br>
+                <div class="rate">
+                  <input type="radio" name="rating" value="5" id = "rating10">
+                  <label for="rating10" title="5"></label>
+
+                  <input type="radio" name="rating" value="4.5" id = "rating9">
+                  <label for="rating9" title="4.5" class="half"></label>
+
+                  <input type="radio" name="rating" value="4" id = "rating8">
+                  <label for="rating8" title="4"></label>
+
+                  <input type="radio" name="rating" value="3.5" id = "rating7">
+                  <label for="rating7" title="3.5" class="half"></label>
+
+                  <input type="radio" name="rating" value="3" id = "rating6">
+                  <label for="rating6" title="3"></label>
+
+                  <input type="radio" name="rating" value="2.5" id = "rating5">
+                  <label for="rating5" title="2.5" class="half"></label>
+
+                  <input type="radio" name="rating" value="2" id = "rating4">
+                  <label for="rating4" title="2"></label>
+
+                  <input type="radio" name="rating" value="1.5" id = "rating3">
+                  <label for="rating3" title="1.5" class="half"></label>
+
+                  <input type="radio" name="rating" value="1" id = "rating2">
+                  <label for="rating2" title="1"></label>
+
+                  <input type="radio" name="rating" value="0.5" id = "rating1">
+                  <label for="rating1" title=".5" class="half"></label>
+
+                  <input type="radio" name="rating" value="0" id = "rating0">
+                  <label for="rating0" title="0"></label>
+                </div>
+                <br>
+                Comment title:
+                <input type="text" class="form-control" name="subject" value="">
+                <br>
+                Comment:
+                <textarea name="review" rows="4" class="form-control"></textarea>
+                <br>
+                {% if user.is_authenticated %}
+                    <input type="submit" name="" value="Submit comment" class="btn btn-primary">
+                {% else %}
+                  <p>Please, login to rate  <span><a href="{% url 'app_accounts:login_view_path' %}">Log in</a></span></p>
+                {% endif %}
+              </div>
+
+              {% include 'includes/alerts.html' %}
+
+            </form>
+
+            <article class="box mb-3">
+              <div class="icontext w-100">
+
+                <div class="text">
+                  <span class="date text-muted float-md-right">24.04.2020 </span>
+                  <h6 class="mb-1">Mike John </h6>
+
+                </div>
+              </div> <!-- icontext.// -->
+              <div class="mt-3">
+                <p>
+                  Dummy comment Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip
+                </p>
+              </div>
+            </article>
+
+
+
+          </div> <!-- col.// -->
+        </div> <!-- row.// -->
+
+
+      </div> <!-- container .//  -->
+    </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+    {% endblock %}
