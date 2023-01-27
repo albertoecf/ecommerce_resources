@@ -1,10 +1,12 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
-from .models import ProductClass
+from .models import ProductClass, ReviewRatingClass
 from app_category.models import CategoryClass
 from app_carts.models import CartItemClass
 from app_carts.views import _cart_id
+from .forms import ReviewFormClass
+from django.contrib import messages
 
 # Create your views here.
 def store_view(request, category_slug=None):
@@ -68,3 +70,29 @@ def search_view(request):
     }
 
     return render(request, 'store/store_file.html', info_to_render)
+
+def submit_review_view(request, product_id):
+    print('submit view excecuted')
+    request_url = request.META.get("HTTP_REFERER")
+    if request.method == "POST":
+        try:
+            reviews = ReviewRatingClass.objects.get(user__id = request.user.id, product__id=product_id)
+            form = ReviewFormClass(request.POST, instance=reviews)
+            form.save()
+            messages.success(request, "Thanks for rating")
+            print('s')
+            return redirect(request_url)
+        except ReviewRatingClass.DoesNotExist:
+            form = ReviewFormClass(request.POST)
+            if form.is_valid():
+                data = ReviewRatingClass()
+                data.subject = form.cleaned_data["subject"]
+                data.rating = form.cleaned_data["rating"]
+                data.review = form.cleaned_data["review"]
+                data.ip = request.META.get("REMOTE_ADDR")
+                data.product_id = product_id
+                data.user_id  = request.user.id
+                data.save()
+                print('sa')
+                messages.success(request, "Thanks for rating")
+                return redirect(request_url)
