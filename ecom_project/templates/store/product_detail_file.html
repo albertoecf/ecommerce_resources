@@ -86,7 +86,7 @@
 
             </header>
 
-            <form class="" action="" method="POST">
+            <form action="{% url 'app_store:submit_review_view_path' single_product.id %}" method="POST">
               {% csrf_token %}
 
               <h5>Write your Comment : </h5>
@@ -132,11 +132,16 @@
                 <input type="text" class="form-control" name="subject" value="">
                 <br>
                 Comment:
-                <textarea name="comment" rows="4" class="form-control"></textarea>
+                <textarea name="review" rows="4" class="form-control"></textarea>
                 <br>
-                <input type="submit" name="" value="Submit comment" class="btn btn-primary">
+                {% if user.is_authenticated %}
+                    <input type="submit" name="" value="Submit comment" class="btn btn-primary">
+                {% else %}
+                  <p>Please, login to rate  <span><a href="{% url 'app_accounts:login_view_path' %}">Log in</a></span></p>
+                {% endif %}
               </div>
 
+              {% include 'includes/alerts.html' %}
             </form>
 
             <article class="box mb-3">

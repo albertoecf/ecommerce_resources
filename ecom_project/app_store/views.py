@@ -7,6 +7,7 @@ from app_carts.models import CartItemClass
 from app_carts.views import _cart_id
 from .forms import ReviewFormClass
 from django.contrib import messages
+from app_orders.models import OrderProductClass
 
 # Create your views here.
 def store_view(request, category_slug=None):
@@ -43,9 +44,15 @@ def product_detail_view(request, category_slug, product_slug):
     except Exception as e :
         raise e
 
+    try :
+        orderproduct = OrderProductClass.objects.filter(user=request.user, product_id=single_product.id).exists()
+    except OrderProductClass.DoesNotExist:
+        orderproduct = None
+
     product_info_to_render = {
         'single_product':single_product,
         'in_cart':in_cart,
+        'orderproduct' : orderproduct,
     }
 
     return render(request, 'store/product_detail_file.html',product_info_to_render)
