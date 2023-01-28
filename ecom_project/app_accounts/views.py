@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import RegistrationFormClass
 from .models import AccountClass
+from app_orders.models import OrderClass
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
@@ -124,7 +125,13 @@ def activate_view(request, uidb64, token):
 
 @login_required
 def dashboard_view(request):
-    return render(request, "accounts/dashboard.html")
+    orders = OrderClass.objects.filter(user_id=request.user.id, is_ordered=True)
+    orders_count = 0
+    orders_count = orders.count()
+    info_to_render = {
+    'orders_count':orders_count
+    }
+    return render(request, "accounts/dashboard.html",info_to_render)
 
 
 def forgot_password_view(request):
@@ -191,3 +198,16 @@ def reset_password_view(request):
             return redirect("app_accounts:reset_password_view_path")
     else:
         return render(request, "accounts/reset_password.html")
+
+
+@login_required
+def my_orders_view(request):
+    orders = OrderClass.objects.filter(user_id=request.user.id, is_ordered=True)
+    orders_count = 0
+    orders_count = orders.count()
+    dic_to_render = {
+            'orders_count':orders_count,
+            'orders' : orders
+        }
+
+    return render(request, "accounts/my_orders.html",dic_to_render)
