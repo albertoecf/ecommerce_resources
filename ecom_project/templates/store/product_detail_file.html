@@ -81,15 +81,12 @@
         <div class="row">
           <div class="col-md-9">
 
-            <header class="section-heading">
-              <h3>Customer Reviews </h3>
-
-            </header>
 
             <form action="{% url 'app_store:submit_review_view_path' single_product.id %}" method="POST">
               {% csrf_token %}
 
               <h5>Write your Comment : </h5>
+              {{single_product.averageReview}}
               <div class="">
                 <label for="">How was your experience?</label>
                 <br>
@@ -143,6 +140,12 @@
 
               {% include 'includes/alerts.html' %}
             </form>
+
+            <header class="section-heading">
+              <h3>Customer Reviews </h3>
+
+            </header>
+
 
             {% for review in reviews %}
               <article class="box mb-3">
