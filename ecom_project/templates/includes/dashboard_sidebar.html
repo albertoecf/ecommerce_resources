@@ -1,10 +1,10 @@
 <aside class="col-md-3">
     <!--   SIDEBAR   -->
     <ul class="list-group">
-        <a class="list-group-item active" href="#"> Dashboard </a>
-        <a class="list-group-item" href="#"> My orders </a>
+        <a class="list-group-item {% if '/accounts/' == request.path %} active {%endif%}" href="{% url 'app_accounts:dashboard_view_path' %}"> Dashboard </a>
+        <a class="list-group-item {% if '/accounts/my_orders/' == request.path %} active {%endif%}" href="{% url 'app_accounts:my_orders_view_path' %}"> My orders </a>
         <a class="list-group-item" href="#"> Edit Profilw </a>
-        <a class="list-group-item" href="#">Change password </a>        
+        <a class="list-group-item" href="#">Change password </a>
     </ul>
     <br>
     <a class="btn btn-light btn-block" href="{% url 'app_accounts:logout_view_path' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>

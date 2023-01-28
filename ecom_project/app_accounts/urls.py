@@ -5,8 +5,7 @@ urlpatterns = [
     path('register/', views.register_view, name='register_view_path'),
     path('login/', views.login_view, name='login_view_path'),
     path('logout/', views.logout_view, name='logout_view_path'),
-    path('', views.dashboard_view, name='dashboard_view_path'),
-    path('dashboard/', views.dashboard_view, name='dashboard_view_path'),
+    path('', views.dashboard_view, name='dashboard_view_path'),    
     path('forgot_password/', views.forgot_password_view,
          name='forgot_password_view_path'),
     path('reset_password_validate/<uidb64>/<token>/',
@@ -15,6 +14,6 @@ urlpatterns = [
          name='reset_password_view_path'),
     path('activate/<uidb64>/<token>',
          views.activate_view, name='activate_view_path'),
-    path('my_orders/', views.my_orders_view, name='my_orders_view_path'),     
+    path('my_orders/', views.my_orders_view, name='my_orders_view_path'),
 
 ]
