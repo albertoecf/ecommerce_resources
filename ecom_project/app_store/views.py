@@ -49,13 +49,14 @@ def product_detail_view(request, category_slug, product_slug):
             cart__cart_id=_cart_id(request), product=single_product).exists()
     except Exception as e:
         raise e
-
-    try:
-        orderproduct = OrderProductClass.objects.filter(
-            user=request.user, product_id=single_product.id).exists()
-    except OrderProductClass.DoesNotExist:
+    if request.user.is_authenticated:
+        try:
+            orderproduct = OrderProductClass.objects.filter(
+                user=request.user, product_id=single_product.id).exists()
+        except OrderProductClass.DoesNotExist:
+            orderproduct = None
+    else:
         orderproduct = None
-
     reviews = ReviewRatingClass.objects.filter(
         product_id=single_product.id, status=True)
 
@@ -63,7 +64,7 @@ def product_detail_view(request, category_slug, product_slug):
         'single_product': single_product,
         'in_cart': in_cart,
         'orderproduct': orderproduct,
-        'reviews':reviews, 
+        'reviews':reviews,
     }
 
     return render(request, 'store/product_detail_file.html', product_info_to_render)
