@@ -137,8 +137,12 @@ def dashboard_view(request):
         user_id=request.user.id, is_ordered=True)
     orders_count = 0
     orders_count = orders.count()
+
+    userprofile = UserProfileClass.objects.get(user_id = request.user.id)
+
     info_to_render = {
-        'orders_count': orders_count
+        'orders_count': orders_count,
+        'userprofile':userprofile,
     }
     return render(request, "accounts/dashboard.html", info_to_render)
 
@@ -248,7 +252,7 @@ def edit_profile_view(request):
     }
     return render(request, 'accounts/edit_profile.html')
 
-
+@login_required(login_url='app_accounts:login_view_path')
 def edit_profile_view(request):
     """Handle the edit profile view.
         If the method is 'POST', it will update the user and user profile's data,
@@ -273,3 +277,27 @@ def edit_profile_view(request):
         'userprofile': userprofile
     }
     return render(request, 'accounts/edit_profile.html', info_to_render)
+
+@login_required(login_url='app_accounts:login_view_path')
+def change_password_view(request):
+    if request.method == 'POST':
+        current_password = request.POST['current_password']
+        new_password = request.POST['new_password']
+        confirm_password = request.POST['confirm_password']
+
+        user = AccountClass.objects.get(username__exact=request.user.username)
+
+        if new_password == confirm_password:
+            success = user.check_password(current_password)
+            if success:
+                user.set_password(new_password)
+                user.save()
+
+                messages.success(request, 'Changed password')
+                return redirect('app_accounts:change_password_view_path')
+
+            else:
+                messages.error(request, 'Please try again')
+                return redirect('app_accounts:change_password_view_path')
+
+    return render(request, 'accounts/change_password.html')

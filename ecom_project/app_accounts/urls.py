@@ -16,5 +16,6 @@ urlpatterns = [
          views.activate_view, name='activate_view_path'),
     path('my_orders/', views.my_orders_view, name='my_orders_view_path'),
     path('edit_profile/', views.edit_profile_view, name='edit_profile_view_path'),
+    path('change_password/', views.change_password_view, name='change_password_view_path'),
 
 ]
