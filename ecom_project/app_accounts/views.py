@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from .forms import RegistrationFormClass
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import RegistrationFormClass, UserProfileClass, UserFormClass, UserProfileFormClass
 from .models import AccountClass
 from app_orders.models import OrderClass
 from django.contrib import messages, auth
@@ -65,9 +65,10 @@ def login_view(request):
             print("user is not none")
             try:
                 print("try accessedd")
-                cart = CartClass.objects.get(cart_id = _cart_id(request))
+                cart = CartClass.objects.get(cart_id=_cart_id(request))
                 print("Cart initiated")
-                is_cart_item_exists = CartItemClass.objects.filter(cart=cart).exists()
+                is_cart_item_exists = CartItemClass.objects.filter(
+                    cart=cart).exists()
                 print("no carts were found")
                 if is_cart_item_exists:
                     print('cart_items_exist : ')
@@ -86,7 +87,7 @@ def login_view(request):
             try:
                 query = requests.utils.urlparse(url_from_request).query
                 params = dict(x.split("=") for x in query.split("&"))
-                if "next" in params :
+                if "next" in params:
                     next_page = params['next']
                     return redirect(next_page)
             except:
@@ -125,13 +126,14 @@ def activate_view(request, uidb64, token):
 
 @login_required
 def dashboard_view(request):
-    orders = OrderClass.objects.filter(user_id=request.user.id, is_ordered=True)
+    orders = OrderClass.objects.filter(
+        user_id=request.user.id, is_ordered=True)
     orders_count = 0
     orders_count = orders.count()
     info_to_render = {
-    'orders_count':orders_count
+        'orders_count': orders_count
     }
-    return render(request, "accounts/dashboard.html",info_to_render)
+    return render(request, "accounts/dashboard.html", info_to_render)
 
 
 def forgot_password_view(request):
@@ -202,12 +204,65 @@ def reset_password_view(request):
 
 @login_required
 def my_orders_view(request):
-    orders = OrderClass.objects.filter(user_id=request.user.id, is_ordered=True)
+    orders = OrderClass.objects.filter(
+        user_id=request.user.id, is_ordered=True)
     orders_count = 0
     orders_count = orders.count()
     dic_to_render = {
-            'orders_count':orders_count,
-            'orders' : orders
-        }
+        'orders_count': orders_count,
+        'orders': orders
+    }
 
-    return render(request, "accounts/my_orders.html",dic_to_render)
+    return render(request, "accounts/my_orders.html", dic_to_render)
+
+
+def edit_profile_view(request):
+    """Handle the edit profile view.
+        If the method is 'POST', it will update the user and user profile's data,
+        and show a success message if the forms are valid.
+        If the method is 'GET', it will render the template with the user's current data."""
+    userprofile = get_object_or_404(UserProfileClass, user=request.user)
+    user_form = UserFormClass(instance=request.user)
+    profile_form = UserProfileFormClass(instance=userprofile)
+    if request.method == "POST":
+        user_form = UserFormClass(request.POST, instance=request.user)
+        profile_form = UserProfileClass(
+            request.POST, request.FILES, instance=userprofile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Changes saved!')
+
+    info_to_render = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'userprofile': userprofile
+    }
+    return render(request, 'accounts/edit_profile.html')
+
+
+def edit_profile_view(request):
+    """Handle the edit profile view.
+        If the method is 'POST', it will update the user and user profile's data,
+        and show a success message if the forms are valid.
+        If the method is 'GET', it will render the template with the user's current data."""
+    userprofile = get_object_or_404(UserProfileClass, user=request.user)
+    user_form = UserFormClass(instance=request.user)
+    profile_form = UserProfileFormClass(instance=userprofile)
+    if request.method == "POST":
+        user_form = UserFormClass(request.POST, instance=request.user)
+        profile_form = UserProfileFormClass(
+            request.POST, request.FILES, instance=userprofile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Changes saved!')
+
+    info_to_render = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'userprofile': userprofile
+    }
+    return render(request, 'accounts/edit_profile.html', info_to_render)
