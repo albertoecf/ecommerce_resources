@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
-from .forms import RegistrationFormClass
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import RegistrationFormClass, UserProfileClass, UserFormClass, UserProfileFormClass
 from .models import AccountClass
+from app_orders.models import OrderClass
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
@@ -32,6 +33,13 @@ def register_view(request):
                 email=email_from_form,
                 password=password_from_form)
             user.save()
+
+
+            profile = UserProfileClass()
+            profile.user_id = user.id
+            profile.profile_picture = 'default/default_user.png'
+            profile.save()
+
             current_site = get_current_site(request)
             mail_subject = "Get started with Ceibo"
             body = render_to_string('accounts/account_verification_email.html', {
@@ -64,9 +72,10 @@ def login_view(request):
             print("user is not none")
             try:
                 print("try accessedd")
-                cart = CartClass.objects.get(cart_id = _cart_id(request))
+                cart = CartClass.objects.get(cart_id=_cart_id(request))
                 print("Cart initiated")
-                is_cart_item_exists = CartItemClass.objects.filter(cart=cart).exists()
+                is_cart_item_exists = CartItemClass.objects.filter(
+                    cart=cart).exists()
                 print("no carts were found")
                 if is_cart_item_exists:
                     print('cart_items_exist : ')
@@ -85,7 +94,7 @@ def login_view(request):
             try:
                 query = requests.utils.urlparse(url_from_request).query
                 params = dict(x.split("=") for x in query.split("&"))
-                if "next" in params :
+                if "next" in params:
                     next_page = params['next']
                     return redirect(next_page)
             except:
@@ -124,7 +133,18 @@ def activate_view(request, uidb64, token):
 
 @login_required
 def dashboard_view(request):
-    return render(request, "accounts/dashboard.html")
+    orders = OrderClass.objects.filter(
+        user_id=request.user.id, is_ordered=True)
+    orders_count = 0
+    orders_count = orders.count()
+
+    userprofile = UserProfileClass.objects.get(user_id = request.user.id)
+
+    info_to_render = {
+        'orders_count': orders_count,
+        'userprofile':userprofile,
+    }
+    return render(request, "accounts/dashboard.html", info_to_render)
 
 
 def forgot_password_view(request):
@@ -191,3 +211,93 @@ def reset_password_view(request):
             return redirect("app_accounts:reset_password_view_path")
     else:
         return render(request, "accounts/reset_password.html")
+
+
+@login_required
+def my_orders_view(request):
+    orders = OrderClass.objects.filter(
+        user_id=request.user.id, is_ordered=True)
+    orders_count = 0
+    orders_count = orders.count()
+    dic_to_render = {
+        'orders_count': orders_count,
+        'orders': orders
+    }
+
+    return render(request, "accounts/my_orders.html", dic_to_render)
+
+
+def edit_profile_view(request):
+    """Handle the edit profile view.
+        If the method is 'POST', it will update the user and user profile's data,
+        and show a success message if the forms are valid.
+        If the method is 'GET', it will render the template with the user's current data."""
+    userprofile = get_object_or_404(UserProfileClass, user=request.user)
+    user_form = UserFormClass(instance=request.user)
+    profile_form = UserProfileFormClass(instance=userprofile)
+    if request.method == "POST":
+        user_form = UserFormClass(request.POST, instance=request.user)
+        profile_form = UserProfileClass(
+            request.POST, request.FILES, instance=userprofile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Changes saved!')
+
+    info_to_render = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'userprofile': userprofile
+    }
+    return render(request, 'accounts/edit_profile.html')
+
+@login_required(login_url='app_accounts:login_view_path')
+def edit_profile_view(request):
+    """Handle the edit profile view.
+        If the method is 'POST', it will update the user and user profile's data,
+        and show a success message if the forms are valid.
+        If the method is 'GET', it will render the template with the user's current data."""
+    userprofile = get_object_or_404(UserProfileClass, user=request.user)
+    user_form = UserFormClass(instance=request.user)
+    profile_form = UserProfileFormClass(instance=userprofile)
+    if request.method == "POST":
+        user_form = UserFormClass(request.POST, instance=request.user)
+        profile_form = UserProfileFormClass(
+            request.POST, request.FILES, instance=userprofile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Changes saved!')
+
+    info_to_render = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'userprofile': userprofile
+    }
+    return render(request, 'accounts/edit_profile.html', info_to_render)
+
+@login_required(login_url='app_accounts:login_view_path')
+def change_password_view(request):
+    if request.method == 'POST':
+        current_password = request.POST['current_password']
+        new_password = request.POST['new_password']
+        confirm_password = request.POST['confirm_password']
+
+        user = AccountClass.objects.get(username__exact=request.user.username)
+
+        if new_password == confirm_password:
+            success = user.check_password(current_password)
+            if success:
+                user.set_password(new_password)
+                user.save()
+
+                messages.success(request, 'Changed password')
+                return redirect('app_accounts:change_password_view_path')
+
+            else:
+                messages.error(request, 'Please try again')
+                return redirect('app_accounts:change_password_view_path')
+
+    return render(request, 'accounts/change_password.html')
