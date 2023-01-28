@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'app_store.apps.AppStoreConfig',
     'app_carts.apps.AppCartsConfig',
     'app_orders.apps.AppOrdersConfig',
+    'admin_honeypot',
 ]
 
 MIDDLEWARE = [

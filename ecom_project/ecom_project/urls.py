@@ -21,7 +21,8 @@ from . import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls' , namespace='admin_honeypot')),
+    path('securelogin/', admin.site.urls),
     path('', views.home_view, name= 'home_view_path'),
     path('store/', include('app_store.urls')),
     path('cart/', include('app_carts.urls')),
