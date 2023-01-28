@@ -55,7 +55,7 @@ class UserFormClass(forms.ModelForm):
         """
         super(UserFormClass, self).__init__(*args,**kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs['class']='form-cont'
+            self.fields[field].widget.attrs['class']='form-control'
 
 
 class UserProfileFormClass(forms.ModelForm):

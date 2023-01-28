@@ -33,6 +33,13 @@ def register_view(request):
                 email=email_from_form,
                 password=password_from_form)
             user.save()
+
+
+            profile = UserProfileClass()
+            profile.user_id = user.id
+            profile.profile_picture = 'default/default_user.png'
+            profile.save()
+
             current_site = get_current_site(request)
             mail_subject = "Get started with Ceibo"
             body = render_to_string('accounts/account_verification_email.html', {
