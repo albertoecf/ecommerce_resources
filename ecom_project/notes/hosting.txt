@@ -1,0 +1,10 @@
+ 1. python3 -m venv ecommerce
+ 2. source ecommerce/bin/activate
+ 3. python -m pip install -r requirements.txt
+ (check) -> pip list
+4. mkdir .ebextensions
+5. create file django.config, with :
+option_settings:
+  aws:elasticbeanstalk:container:python:
+    WSGIPath: ebdjango.wsgi:application
+6. eb init -p python-3.7 ecommerce
