@@ -1,4 +1,4 @@
-#!/Users/Personal/Documents/my_projects/ecommerce_resources/local-env/bin/python3
+#!/Users/Personal/Documents/my_projects/ecommerce_resources/ecom_project/env-local/bin/python3
 
 import sys
 import json
