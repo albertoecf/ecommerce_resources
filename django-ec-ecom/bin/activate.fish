@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/Personal/Documents/my_projects/ecommerce_resources/ecom_project/env-local"
+set -gx VIRTUAL_ENV "/Users/Personal/Documents/my_projects/ecommerce_resources/django-ec-ecom"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
@@ -52,14 +52,14 @@ if test -z "$VIRTUAL_ENV_DISABLE_PROMPT"
         set -l old_status $status
 
         # Prompt override?
-        if test -n "(env-local) "
-            printf "%s%s" "(env-local) " (set_color normal)
+        if test -n "(django-ec-ecom) "
+            printf "%s%s" "(django-ec-ecom) " (set_color normal)
         else
             # ...Otherwise, prepend env
             set -l _checkbase (basename "$VIRTUAL_ENV")
             if test $_checkbase = "__"
                 # special case for Aspen magic directories
-                # see https://aspen.io/
+                # see http://www.zetadev.com/software/aspen/
                 printf "%s[%s]%s " (set_color -b blue white) (basename (dirname "$VIRTUAL_ENV")) (set_color normal)
             else
                 printf "%s(%s)%s" (set_color -b blue white) (basename "$VIRTUAL_ENV") (set_color normal)

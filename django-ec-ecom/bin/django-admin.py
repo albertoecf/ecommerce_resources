@@ -1,4 +1,4 @@
-#!/Users/Personal/Documents/my_projects/ecommerce_resources/ecom_project/env-local/bin/python3
+#!/Users/Personal/Documents/my_projects/ecommerce_resources/django-ec-ecom/bin/python3
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 

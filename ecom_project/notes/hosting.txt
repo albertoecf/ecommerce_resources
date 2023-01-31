@@ -8,3 +8,38 @@ option_settings:
   aws:elasticbeanstalk:container:python:
     WSGIPath: ebdjango.wsgi:application
 6. eb init -p python-3.7 ecommerce
+
+
+Amazon - Elastic computing 2
+1. Go to EC2 instances
+2. Ubuntu - t2 micro (free tier)
+3. create a key-pair (.pem)
+4. Launch instance
+we've our instance running, now, we want to connect with
+our instance. we're going to do that with ssh
+5. cd where we have the key-pair.pem file. And then execute :
+  chmod 400 /path/to/key-pair.pem
+6. cd /key-pair.pem -> ssh -i key-pair.pem ubuntu@public-dns-from-amazon
+We should be in our virtual machine now
+
+ssh-keygen -t ed25519 -C "your_email@example.com"
+ssh-keygen -t ed25519 -C castrofuentesalberto@gmail.com
+git clone git@github.com:albertoecf/ecommerce_resources.git
+https://github.com/albertoecf/ecommerce_resources
+
+Set remote compture with what it needs:
+7. sudo apt-get update
+8. sudo apt-get install python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx
+9. python3 -m pip install -r requirements.txt
+
+Create a security group:
+https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2#CreateSecurityGroup:
+10.  Agregar el grupo de seguridad a nuestra instancia
+
+En nuestra instancia/computadora ubuntu . Vamos a nuestro projecto django.
+Desde amazon web copiamos IPv4 Public IP y lo agregamos como "ALLOWED_HOSTS" en settings
+11. ubuntu: vim django_project/settings.py  || hit "i" to start editing file || :wq
+
+
+
+scp /path/to/local/file ubuntu@<Amazon Ubuntu IP address>:~/destination/folder
