@@ -43,3 +43,9 @@ Desde amazon web copiamos IPv4 Public IP y lo agregamos como "ALLOWED_HOSTS" en 
 
 
 scp /path/to/local/file ubuntu@<Amazon Ubuntu IP address>:~/destination/folder
+
+
+1. Crear una maquina virtual en amazon -> lanzar instancia (configuración)
+2. Conectar con la computadora desde la nuestra (cd /key-pair.pem -> ssh -i key-pair.pem ubuntu@public-dns-from-amazon)
+3. Cargar un archivo (create keys and git clone repository )
+4. Run server (setup environment and run)
