@@ -4,7 +4,8 @@ from app_store.models import ProductClass, ReviewRatingClass
 def home_view(request):
 
     products_all = ProductClass.objects.all().filter(is_available=True).order_by('created_date')
-
+    reviews = ReviewRatingClass.objects.none()
+    
     for iterable_product in products_all:
         reviews = ReviewRatingClass.objects.filter(product_id=iterable_product.id, status=True)
 
