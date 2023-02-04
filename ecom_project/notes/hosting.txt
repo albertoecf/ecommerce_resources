@@ -11,6 +11,7 @@ option_settings:
 
 
 Amazon - Elastic computing 2
+
 1. Go to EC2 instances
 2. Ubuntu - t2 micro (free tier)
 3. create a key-pair (.pem)
@@ -26,6 +27,11 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 ssh-keygen -t ed25519 -C castrofuentesalberto@gmail.com
 git clone git@github.com:albertoecf/ecommerce_resources.git
 https://github.com/albertoecf/ecommerce_resources
+
+Private repos -> Genera una clave SSH en la máquina EC2
+(Clave pública de la máquina EC2 no ha sido agregada a tu cuenta de Github como una clave SSH autorizada)
+
+
 
 Set remote compture with what it needs:
 7. sudo apt-get update
@@ -49,3 +55,49 @@ scp /path/to/local/file ubuntu@<Amazon Ubuntu IP address>:~/destination/folder
 2. Conectar con la computadora desde la nuestra (cd /key-pair.pem -> ssh -i key-pair.pem ubuntu@public-dns-from-amazon)
 3. Cargar un archivo (create keys and git clone repository )
 4. Run server (setup environment and run)
+
+
+3. Cargar un archivo (create keys and git clone repository )
+Debemos decirle a github que la computadora de EC2 de amazon, somos nosotros.
+
+https://docs.github.com/es/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+Puedes generar una nueva clave SSH en el equipo local.
+Después de generar la clave, puedes agregar la clave a tu cuenta en GitHub.com
+para habilitar la autenticación para las operaciones de Git a través de SSH.
+
+$ ssh-keygen -t ed25519 -C "your_email@example.com"
+
+Omitir frase y palabra (enter, enter, enter)
+
+Agregar tu clave SSH al ssh-agent
+$ eval "$(ssh-agent -s)"
+
+Si estás usando macOS Sierra 10.12.2 o una versión posterior, deberás modificar tu archivo
+~/.ssh/config
+para cargar las claves automáticamente en el agente ssh-agent y almacenar las
+contraseñas en tu cadena de claves.
+Si el archivo no existe, créalo.
+$ touch ~/.ssh/config
+
+Abre el archivo ~/.ssh/config y, a continuación, modifica el archivo para que contenga las líneas siguientes. Si tu llave SSH tiene un nombre o ruta diferentes que el código de ejemplo, modifica el nombre de archivo o ruta para que coincida con tu configuración actual.
+
+Host *.github.com
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+
+Agrega tu llave privada SSH al ssh-agent y almacena tu contraseña en tu keychain.
+$ ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+ Si eliges no agregar una frase de contraseña a tu clave, ejecuta el comando
+ sin la opción --apple-use-keycha
+
+ Agrega la llave SSH a tu cuenta en GitHub.
+
+1. En la esquina superior derecha de cualquier página, haga clic en la foto del
+    perfil y, luego, en **Settings** (Configuración).
+2. En la sección "Acceso" de la barra lateral, haga clic en  SSH y claves de GPG.
+3. Haga clic en Nueva clave SSH o en Agregar clave SSH.
+4. En el campo "Title" (Título), agrega una etiqueta descriptiva para la clave nueva.
+5. Selecciona el tipo de clave, ya sea de autenticación (generalmente) o de firma.
+6. Pega tu clave en el campo "Key" -> ~/.ssh/id_ed25519.pub
+7. git clone git@github.com:user/repo.git
